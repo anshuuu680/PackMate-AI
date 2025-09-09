@@ -19,7 +19,7 @@ function Navbar() {
 
   return (
     <>
-      <div className="w-full h-12 sm:h-14 bg-white border-b border-gray-200 flex items-center justify-end px-4 sm:px-6 relative">
+      <div className="w-full h-12 border-b border-gray-200 bg-white shadow-md flex items-center justify-end px-4 sm:px-6 relative">
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setOpen(!open)}
@@ -33,12 +33,12 @@ function Navbar() {
           </button>
 
           {open && (
-            <div className="absolute right-0 mt-2 w-44 bg-white border border-gray-200 rounded-md shadow-lg overflow-hidden animate-fadeIn">
+            <div className="absolute right-0 mt-2 w-44 bg-white border border-gray-200 rounded-sm shadow-lg overflow-hidden animate-fadeIn">
               <button
                 className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition"
                 onClick={() => {
                   setOpen(false);
-                  setProfileModal(true); // open modal
+                  setProfileModal(true);
                 }}
               >
                 <User size={16} /> My Profile
