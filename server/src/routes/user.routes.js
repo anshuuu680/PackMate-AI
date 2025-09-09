@@ -10,5 +10,6 @@ router.route("/login").post(user.login);
 // protected routes
 router.route("/get-user").get(protect, user.getUser);
 router.route("/logout").post(protect, user.logout);
+router.route("/update-user").post(protect, user.updateUser);
 
 export default router;

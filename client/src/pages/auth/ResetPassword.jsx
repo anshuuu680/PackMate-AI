@@ -8,7 +8,7 @@ function ResetPassword() {
     console.log("reset password form values", values);
     const email = location.state?.email;
     console.log("reset email", email);
-    navigate("/login");
+    navigate("/auth/login");
   });
   return (
     <div className="w-full bg-primary min-h-screen flex  justify-center lg:justify-around items-center lg:items-start pt-12 lg:pt-20">

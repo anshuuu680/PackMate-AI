@@ -8,7 +8,7 @@ function VerifyOtp() {
   const location = useLocation();
   const email = location.state?.email;
   const formik = useAuthFormFormik("verifyOtp", (values) => {
-    navigate("/reset-password", { state: { email } });
+    navigate("/auth/reset-password", { state: { email } });
   });
 
   const inputRefs = useRef([]);

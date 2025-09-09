@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
 
 html,
 body,
@@ -8,15 +8,11 @@ body,
   font-family: "Manrope", sans-serif;
 }
 
-/* @font-face {
-  font-family: "Dmsans-regular";
-  src: url("/fonts/dmsans-1.ttf") format("truetype");
-} */
-
 @theme {
   --color-primary: #f7fbfd;
   --color-secondary: #2149a9;
   --font-inter: "Inter";
+  --text-error: 0.75rem;
   --text-base: 0.625rem;
   --text-sm: 0.875rem;
   --text-md: 1rem;
@@ -45,12 +41,50 @@ body,
   border-radius: 0.5rem;
   font-size: var(--text-sm);
   cursor: pointer;
+  transition: background-color 0.2s ease;
   width: 100%;
+}
+
+.submit-button,
+.save-button,
+.submit {
+  background-color: var(--color-secondary);
+  color: white;
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.submit-button:hover,
+.save-button:hover,
+.submit:hover {
+  background-color: #163580; /* darker blue hover */
+}
+
+.cancel-button {
+  background-color: #e5e7eb;
+  padding: 0.5em 1em;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cancel-button:hover {
+  background-color: #d1d5db;
 }
 
 .p-error {
   color: #ea0a0a;
-  font-size: var(--text-sm);
+  font-weight: 500;
+  font-size: var(--text-error);
+  position: absolute;
+  left: 0;
+  bottom: -18px;
 }
 
 .input-label {
@@ -65,14 +99,4 @@ body,
   background-color: #b9c9ff55;
   color: rgb(128, 128, 248);
   font-size: var(--text-base);
-}
-
-.submit {
-  background-color: var(--color-secondary);
-  color: white;
-  padding: 0.5em 1em;
-  border: none;
-  border-radius: 0.5rem;
-  font-size: var(--text-sm);
-  cursor: pointer;
 }

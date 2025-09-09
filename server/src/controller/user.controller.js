@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import jwt from "jsonwebtoken";
 
 const cookieOptions = {
   httpOnly: true,
@@ -106,7 +107,6 @@ export const user = {
   }),
 
   getUser: asyncHandler(async (req, res) => {
-    console.log(req.user);
     if (!req.user) throw new ApiError(401, "Unauthorized");
 
     const currentUser = await User.findByPk(req.user.id, {
@@ -118,6 +118,23 @@ export const user = {
     return res
       .status(200)
       .json(new ApiResponse(200, currentUser, "User fetched successfully"));
+  }),
+
+  updateUser: asyncHandler(async (req, res) => {
+    const { email, fullName, mobile } = req.body;
+
+    const user = await User.findByPk(req.user.id);
+    if (!user) throw new ApiError(404, "User not found");
+
+    if (email) user.email = email;
+    if (fullName) user.fullName = fullName;
+    if (mobile) user.mobile = mobile;
+
+    await user.save();
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, user, "User updated successfully"));
   }),
 
   refreshAccessToken: asyncHandler(async (req, res) => {

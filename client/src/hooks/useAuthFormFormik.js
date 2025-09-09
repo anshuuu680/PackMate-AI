@@ -37,6 +37,13 @@ const getInitialValue = (formType) => {
       return {
         otp: "",
       };
+    case "updateProfile":
+      return {
+        email: "",
+        fullName: "",
+        mobile: "",
+        avatar: null,
+      };
     default:
       return {};
   }
@@ -87,6 +94,17 @@ const getValidationSchema = (formType) => {
         otp: Yup.string()
           .length(5, "OTP must be 5 digits")
           .required("OTP is required"),
+      });
+
+    case "updateProfile":
+      return Yup.object().shape({
+        email: Yup.string()
+          .email("Invalid email address")
+          .required("Email is required"),
+        fullName: Yup.string().required("Full name is required"),
+        mobile: Yup.string()
+          .matches(/^[0-9]{10}$/, "Must be a valid 10-digit number")
+          .required("Mobile is required"),
       });
 
     default:

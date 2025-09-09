@@ -10,7 +10,7 @@ function Register() {
       <div className="w-full lg:w-[40%] flex justify-center items-center p-6">
         <div className="w-full sm:w-[90%] rounded-md shadow-lg bg-white py-10 px-6 flex flex-col justify-center items-center gap-8">
           <div className="flex flex-col items-center gap-1">
-            <h1 className="text-2xl font-semibold">Create Account</h1>
+            <h1 className="text-2xl font-bold">Create Account</h1>
             <p className="text-sm text-gray-400">Join us today!</p>
           </div>
 
@@ -83,9 +83,9 @@ function Register() {
               Register
             </button>
 
-            <p className="text-sm text-gray-500 mt-4">
+            <p className="text-sm text-gray-500 mt-4 font-semibold">
               Already have an account?{" "}
-              <a href="/login" className="text-blue-600 hover:underline">
+              <a href="/auth/login" className="text-blue-600 hover:underline">
                 Login
               </a>
             </p>

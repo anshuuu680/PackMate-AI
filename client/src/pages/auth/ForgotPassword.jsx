@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 function ForgotPassword() {
   const navigate = useNavigate();
   const formik = useAuthFormFormik("forgotPassword", (values) => {
-    console.log("forgot password form values", values);
-    navigate("/verify-otp", { state: { email: values.email } });
+    navigate("/auth/verify-otp", { state: { email: values.email } });
   });
 
   return (
