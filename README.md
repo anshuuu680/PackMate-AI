@@ -1,6 +1,6 @@
-# Embedly
+# PackMate
 
-Embedly is a document-based Q&A platform powered by **LangChain** and **RAG (Retrieval-Augmented Generation)**. It allows users to upload any type of document, generate embeddings, and ask questions to receive intelligent responses based on their uploaded content.
+PackMate is a document-based Q&A platform powered by **LangChain** and **RAG (Retrieval-Augmented Generation)**. It allows users to upload any type of document, generate embeddings, and ask questions to receive intelligent responses based on their uploaded content.
 
 ---
 
