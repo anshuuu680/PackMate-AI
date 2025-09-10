@@ -21,7 +21,7 @@ PackMate is a document-based Q&A platform powered by **LangChain** and **RAG (Re
 - **Database:** MySQL (Sequelize ORM)  
 - **Authentication:** JWT (Access & Refresh Tokens)  
 - **AI:** LangChain, GROQ API for chat completions  
-- **Frontend:** Optional (React/Vue/Next.js)
+- **Frontend:** React
 
 ---
 
@@ -29,5 +29,5 @@ PackMate is a document-based Q&A platform powered by **LangChain** and **RAG (Re
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/anshuuu680/Embedly.git
-cd Embedly
+git clone https://github.com/anshuuu680/PackMate-AI.git
+cd PackMate-AI
