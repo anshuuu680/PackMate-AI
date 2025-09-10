@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuthFormFormik } from "../../hooks/useAuthFormFormik";
+import { useAuthFormFormik } from "../hooks/useAuthFormFormik";
 import axios from "axios";
 import { CheckCircle } from "lucide-react";
 
@@ -33,15 +33,16 @@ function UpdateProfileModal({ isOpen, onClose, isVerified = true }) {
     }
   );
 
+  // 🚨 Nothing should render if modal is closed
   if (!isOpen) return null;
 
   return (
     <div
-      className="fixed inset-0 bg-black/40 flex justify-center items-center z-50"
+      className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-xl shadow-lg w-full max-w-2xl p-6 relative"
+        className="bg-white rounded-xl shadow-lg w-full max-w-lg p-6 relative"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-4">
@@ -84,9 +85,7 @@ function UpdateProfileModal({ isOpen, onClose, isVerified = true }) {
           </div>
 
           <div className="relative">
-            <label className="block text-sm font-medium text-gray-700">
-              Full Name
-            </label>
+            <label className="input-label">Full Name</label>
             <input
               type="text"
               name="fullName"
@@ -94,7 +93,7 @@ function UpdateProfileModal({ isOpen, onClose, isVerified = true }) {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               placeholder="John Doe"
-              className="input-box w-1/2"
+              className="input-box w-full"
             />
             {formik.touched.fullName && formik.errors.fullName && (
               <p className="p-error">{formik.errors.fullName}</p>
@@ -102,9 +101,7 @@ function UpdateProfileModal({ isOpen, onClose, isVerified = true }) {
           </div>
 
           <div className="relative">
-            <label className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
+            <label className="input-label">Email</label>
             <div className="flex items-center gap-2">
               <input
                 type="text"
@@ -113,9 +110,9 @@ function UpdateProfileModal({ isOpen, onClose, isVerified = true }) {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 placeholder="john@john.com"
-                className="input-box w-1/2"
+                className="input-box w-full"
               />
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 shrink-0">
                 <CheckCircle
                   size={18}
                   className={isVerified ? "text-green-500" : "text-gray-400"}
@@ -135,9 +132,7 @@ function UpdateProfileModal({ isOpen, onClose, isVerified = true }) {
           </div>
 
           <div className="relative">
-            <label className="block text-sm font-medium text-gray-700">
-              Mobile
-            </label>
+            <label className="input-label">Mobile</label>
             <input
               type="text"
               name="mobile"
@@ -145,7 +140,7 @@ function UpdateProfileModal({ isOpen, onClose, isVerified = true }) {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               placeholder="9876543210"
-              className="input-box w-1/2"
+              className="input-box w-full"
             />
             {formik.touched.mobile && formik.errors.mobile && (
               <p className="p-error">{formik.errors.mobile}</p>

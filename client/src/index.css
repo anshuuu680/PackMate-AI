@@ -6,6 +6,7 @@ body,
 #root {
   height: 100%;
   font-family: "Work sans", sans-serif;
+  background-color: white;
 }
 
 @theme {
@@ -14,7 +15,7 @@ body,
   --font-inter: "Inter";
   --text-error: 0.75rem;
   --text-base: 0.625rem;
-  --text-sm: 0.75rem;
+  --text-sm: 0.8rem;
   --text-md: 1rem;
   --text-lg: 1.125rem;
   --text-xl: 1.25rem;

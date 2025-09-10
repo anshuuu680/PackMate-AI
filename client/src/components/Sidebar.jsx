@@ -34,23 +34,23 @@ function Sidebar({ collapsed, setCollapsed }) {
       <div
         className={`
           fixed top-0 left-0 h-screen bg-white text-gray-800 flex flex-col shadow-xl border-r border-gray-200 transform transition-all duration-300 ease-out z-50
-          ${collapsed ? "w-16" : "w-44"}
+          ${collapsed ? "w-16" : "w-48"}
           ${mobileOpen ? "translate-x-0" : "-translate-x-full"}
           md:translate-x-0 md:static
         `}
       >
         <div className="flex items-center justify-between h-12 px-4 border-b border-gray-200">
           {!collapsed && (
-            <span className="text-2xl font-bold text-blue-600">PM</span>
+            <span className="text-xl font-bold text-blue-600">✨</span>
           )}
           <button
             className="p-2 rounded-lg hover:bg-gray-100 transition-all duration-200"
             onClick={() => setCollapsed(!collapsed)}
           >
             {collapsed ? (
-              <Menu size={18} className="text-gray-600" />
+              <Menu size={19} className="text-gray-600" />
             ) : (
-              <X size={16} className="text-gray-600" />
+              <X size={19} className="text-gray-600" />
             )}
           </button>
         </div>

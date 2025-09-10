@@ -5,13 +5,13 @@ import ForgotPassword from "../pages/Auth/ForgotPassword";
 import ResetPassword from "../pages/Auth/ResetPassword";
 import VerifyOtp from "../pages/Auth/VerifyOtp";
 import PrivateRoute from "./PrivateRoute";
-import DashboardLayout from "../layouts/DashboardLayout";
+import MainLayout from "../layouts/MainLayout";
+import Dashboard from "../pages/Dashboard";
 
 const AppRouter = () => {
   return (
     <Router>
       <Routes>
-        {/* Public Routes */}
         <Route path="/" element={<h1>Home Page</h1>} />
         <Route path="/auth">
           <Route path="login" element={<Login />} />
@@ -21,16 +21,15 @@ const AppRouter = () => {
           <Route path="verify-otp" element={<VerifyOtp />} />
         </Route>
 
-        {/* Protected Routes */}
         <Route
           path="/users/*"
           element={
             <PrivateRoute>
-              <DashboardLayout />
+              <MainLayout />
             </PrivateRoute>
           }
         >
-          <Route index path="dashboard" element={<h1>Dashboard</h1>} />
+          <Route index path="dashboard" element={<Dashboard />} />
           <Route path="chat" element={<h1>Chat Assistant</h1>} />
           <Route path="wardrobe" element={<h1>Wardrobe</h1>} />
           <Route path="trips" element={<h1>Trips</h1>} />
@@ -45,7 +44,6 @@ const AppRouter = () => {
           <Route path="profile" element={<h1>Profile</h1>} />
         </Route>
 
-        {/* Fallback */}
         <Route path="*" element={<h1>404 - Page Not Found</h1>} />
       </Routes>
     </Router>
