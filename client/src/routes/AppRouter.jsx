@@ -1,12 +1,17 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "../pages/Auth/Login";
-import Register from "../pages/Auth/Register";
-import ForgotPassword from "../pages/Auth/ForgotPassword";
-import ResetPassword from "../pages/Auth/ResetPassword";
-import VerifyOtp from "../pages/Auth/VerifyOtp";
-import PrivateRoute from "./PrivateRoute";
-import MainLayout from "../layouts/MainLayout";
-import Dashboard from "../pages/Dashboard";
+import {
+  Login,
+  Register,
+  ForgotPassword,
+  ResetPassword,
+  VerifyOtp,
+  PrivateRoute,
+  MainLayout,
+  Dashboard,
+  ChatPage,
+  Wardrobe,
+} from "../index";
+import { Button } from "@/components/ui/button";
 
 const AppRouter = () => {
   return (
@@ -30,9 +35,9 @@ const AppRouter = () => {
           }
         >
           <Route index path="dashboard" element={<Dashboard />} />
-          <Route path="chat" element={<h1>Chat Assistant</h1>} />
-          <Route path="wardrobe" element={<h1>Wardrobe</h1>} />
-          <Route path="trips" element={<h1>Trips</h1>} />
+          <Route path="chat" element={<ChatPage />} />
+          <Route path="wardrobe" element={<Wardrobe />} />
+          <Route path="trips" element={<Button>Submit</Button>} />
           <Route path="packing-list" element={<h1>Packing List</h1>} />
           <Route path="outfits" element={<h1>Outfit Suggestions</h1>} />
           <Route

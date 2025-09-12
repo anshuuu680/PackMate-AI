@@ -1,7 +1,19 @@
 import { useState } from "react";
+import { CheckCircle } from "lucide-react";
 import { useAuthFormFormik } from "../hooks/useAuthFormFormik";
 import axios from "axios";
-import { CheckCircle } from "lucide-react";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function UpdateProfileModal({ isOpen, onClose, isVerified = true }) {
   const [preview, setPreview] = useState(null);
@@ -14,9 +26,7 @@ function UpdateProfileModal({ isOpen, onClose, isVerified = true }) {
         formData.append("email", values.email);
         formData.append("fullName", values.fullName);
         formData.append("mobile", values.mobile);
-        if (values.avatar) {
-          formData.append("avatar", values.avatar);
-        }
+        if (values.avatar) formData.append("avatar", values.avatar);
 
         const res = await axios.put("/api/v1/user/update", formData, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -33,36 +43,21 @@ function UpdateProfileModal({ isOpen, onClose, isVerified = true }) {
     }
   );
 
-  // 🚨 Nothing should render if modal is closed
-  if (!isOpen) return null;
-
   return (
-    <div
-      className="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
-      onClick={onClose}
-    >
-      <div
-        className="bg-white rounded-xl shadow-lg w-full max-w-lg p-6 relative"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex justify-between items-center mb-4">
-          <h1 className="text-xl font-semibold">Edit Profile</h1>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
-          >
-            ✕
-          </button>
-        </div>
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-lg">
+        <DialogHeader>
+          <DialogTitle>Edit Profile</DialogTitle>
+        </DialogHeader>
 
         <form onSubmit={formik.handleSubmit} className="space-y-6">
-          <div className="flex flex-col items-center">
+          {/* Avatar */}
+          <div className="flex justify-center">
             <div className="relative">
-              <img
-                src={preview || "/default-avatar.png"}
-                alt="avatar"
-                className="w-24 h-24 rounded-full object-cover border"
-              />
+              <Avatar className="h-24 w-24">
+                <AvatarImage src={preview || "/default-avatar.png"} />
+                <AvatarFallback>AP</AvatarFallback>
+              </Avatar>
               <label
                 htmlFor="avatar"
                 className="absolute bottom-0 right-0 bg-blue-600 text-white text-xs px-2 py-1 rounded cursor-pointer hover:bg-blue-700 transition"
@@ -72,7 +67,6 @@ function UpdateProfileModal({ isOpen, onClose, isVerified = true }) {
               <input
                 id="avatar"
                 type="file"
-                name="avatar"
                 accept="image/*"
                 className="hidden"
                 onChange={(e) => {
@@ -84,35 +78,39 @@ function UpdateProfileModal({ isOpen, onClose, isVerified = true }) {
             </div>
           </div>
 
-          <div className="relative">
-            <label className="input-label">Full Name</label>
-            <input
+          {/* Full Name */}
+          <div>
+            <Label htmlFor="fullName">Full Name</Label>
+            <Input
+              id="fullName"
               type="text"
-              name="fullName"
+              placeholder="John Doe"
               value={formik.values.fullName}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              placeholder="John Doe"
-              className="input-box w-full"
+              className="w-full"
             />
             {formik.touched.fullName && formik.errors.fullName && (
-              <p className="p-error">{formik.errors.fullName}</p>
+              <p className="text-sm text-destructive">
+                {formik.errors.fullName}
+              </p>
             )}
           </div>
 
-          <div className="relative">
-            <label className="input-label">Email</label>
+          {/* Email */}
+          <div>
+            <Label htmlFor="email">Email</Label>
             <div className="flex items-center gap-2">
-              <input
+              <Input
+                id="email"
                 type="text"
-                name="email"
+                placeholder="john@john.com"
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                placeholder="john@john.com"
-                className="input-box w-full"
+                className="w-full"
               />
-              <div className="flex items-center gap-1 shrink-0">
+              <div className="flex items-center gap-1">
                 <CheckCircle
                   size={18}
                   className={isVerified ? "text-green-500" : "text-gray-400"}
@@ -127,41 +125,39 @@ function UpdateProfileModal({ isOpen, onClose, isVerified = true }) {
               </div>
             </div>
             {formik.touched.email && formik.errors.email && (
-              <p className="p-error">{formik.errors.email}</p>
+              <p className="text-sm text-destructive">{formik.errors.email}</p>
             )}
           </div>
 
-          <div className="relative">
-            <label className="input-label">Mobile</label>
-            <input
+          {/* Mobile */}
+          <div>
+            <Label htmlFor="mobile">Mobile</Label>
+            <Input
+              id="mobile"
               type="text"
-              name="mobile"
+              placeholder="9876543210"
               value={formik.values.mobile}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              placeholder="9876543210"
-              className="input-box w-full"
+              className="w-full"
             />
             {formik.touched.mobile && formik.errors.mobile && (
-              <p className="p-error">{formik.errors.mobile}</p>
+              <p className="text-sm text-destructive">{formik.errors.mobile}</p>
             )}
           </div>
 
-          <div className="flex justify-end gap-4 pt-6">
-            <button type="button" onClick={onClose} className="cancel-button">
+          {/* Footer Buttons */}
+          <DialogFooter className="flex justify-end gap-4">
+            <Button variant="outline" type="button" onClick={onClose}>
               Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={formik.isSubmitting}
-              className="save-button"
-            >
+            </Button>
+            <Button type="submit" disabled={formik.isSubmitting}>
               {formik.isSubmitting ? "Saving..." : "Save Changes"}
-            </button>
-          </div>
+            </Button>
+          </DialogFooter>
         </form>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
 

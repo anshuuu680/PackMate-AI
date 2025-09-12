@@ -13,6 +13,14 @@ import {
   Users,
 } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 const links = [
   { name: "Dashboard", href: "/dashboard", icon: BarChart3 },
   { name: "Chat Assistant", href: "/chat", icon: MessageCircle },
@@ -29,74 +37,90 @@ function Sidebar({ collapsed, setCollapsed }) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="flex" style={{ fontFamily: "Work sans" }}>
-      {/* Sidebar */}
-      <div
-        className={`
-          fixed top-0 left-0 h-screen bg-white text-gray-800 flex flex-col shadow-xl border-r border-gray-200 transform transition-all duration-300 ease-out z-50
-          ${collapsed ? "w-16" : "w-48"}
-          ${mobileOpen ? "translate-x-0" : "-translate-x-full"}
-          md:translate-x-0 md:static
-        `}
-      >
-        <div className="flex items-center justify-between h-12 px-4 border-b border-gray-200">
-          {!collapsed && (
-            <span className="text-xl font-bold text-blue-600">✨</span>
-          )}
-          <button
-            className="p-2 rounded-lg hover:bg-gray-100 transition-all duration-200"
-            onClick={() => setCollapsed(!collapsed)}
-          >
-            {collapsed ? (
-              <Menu size={19} className="text-gray-600" />
-            ) : (
-              <X size={19} className="text-gray-600" />
+    <TooltipProvider>
+      <div className="flex">
+        <div
+          className={`
+            fixed top-0 left-0 h-screen bg-background text-foreground flex flex-col border-r shadow-sm transition-all duration-300 ease-out z-50
+            ${collapsed ? "w-16" : "w-56"}
+            ${mobileOpen ? "translate-x-0" : "-translate-x-full"}
+            md:translate-x-0 md:static
+          `}
+        >
+          <div className="flex items-center justify-between h-14 px-3 border-b">
+            {!collapsed && (
+              <span className="text-lg font-semibold text-primary">
+                ✨ PackMate
+              </span>
             )}
-          </button>
-        </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setCollapsed(!collapsed)}
+            >
+              {collapsed ? <Menu size={20} /> : <X size={20} />}
+            </Button>
+          </div>
 
-        <div className="flex flex-col mt-4 gap-1.5 px-2 flex-1">
-          {links.map((link) => {
-            const Icon = link.icon;
-            return (
-              <NavLink
-                key={link.name}
-                to={`/users${link.href}`}
-                className={({ isActive }) =>
-                  `flex items-center ${
-                    collapsed ? "justify-center" : "justify-start"
-                  } gap-3 p-2 rounded-lg relative group w-full cursor-pointer transition-all duration-200
-                  ${
-                    isActive
-                      ? "bg-blue-50 text-blue-700"
-                      : "hover:bg-gray-50 hover:text-gray-900"
-                  }`
-                }
-              >
-                {({ isActive }) => (
-                  <>
-                    <Icon
-                      size={16}
-                      className={isActive ? "text-blue-600" : "text-gray-500"}
-                    />
-                    {!collapsed && (
-                      <span className="text-sm flex-1 text-left">
-                        {link.name}
-                      </span>
-                    )}
-                    {collapsed && (
-                      <div className="absolute left-full top-1/2 transform -translate-y-1/2 ml-2 px-2 py-1 rounded bg-gray-800 text-white text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
-                        {link.name}
-                      </div>
-                    )}
-                  </>
-                )}
-              </NavLink>
-            );
-          })}
+          {/* Nav Links */}
+          <div className="flex flex-col mt-4 gap-1.5 px-2 flex-1">
+            {links.map((link) => {
+              const Icon = link.icon;
+              return (
+                <NavLink
+                  key={link.name}
+                  to={`/users${link.href}`}
+                  className={({ isActive }) =>
+                    `flex items-center ${
+                      collapsed ? "justify-center" : "justify-start"
+                    } gap-3 rounded-md p-2 text-sm transition-colors
+                    ${
+                      isActive
+                        ? "bg-accent text-accent-foreground"
+                        : "hover:bg-accent hover:text-accent-foreground"
+                    }`
+                  }
+                >
+                  {({ isActive }) => (
+                    <>
+                      {collapsed ? (
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Icon
+                              size={18}
+                              className={
+                                isActive
+                                  ? "text-primary"
+                                  : "text-muted-foreground"
+                              }
+                            />
+                          </TooltipTrigger>
+                          <TooltipContent side="right">
+                            {link.name}
+                          </TooltipContent>
+                        </Tooltip>
+                      ) : (
+                        <>
+                          <Icon
+                            size={18}
+                            className={
+                              isActive
+                                ? "text-primary"
+                                : "text-muted-foreground"
+                            }
+                          />
+                          <span>{link.name}</span>
+                        </>
+                      )}
+                    </>
+                  )}
+                </NavLink>
+              );
+            })}
+          </div>
         </div>
       </div>
-    </div>
+    </TooltipProvider>
   );
 }
 
