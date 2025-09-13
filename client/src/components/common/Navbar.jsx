@@ -15,7 +15,8 @@ function Navbar() {
 
   return (
     <>
-      <div className="w-full h-12 border-b border-gray-200 bg-background shadow-md flex items-center justify-end px-4 sm:px-6 gap-4">
+      <div className="w-full h-12 border-b bg-surface shadow-sm flex items-center justify-end px-4 sm:px-6 gap-4">
+        {/* Theme toggle */}
         <ModeToggle />
 
         {/* Notifications */}
@@ -23,11 +24,11 @@ function Navbar() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="relative">
               <Bell size={20} />
-              <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-500"></span>
+              <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-destructive"></span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-64">
-            <div className="p-3 text-sm text-gray-700 border-b">
+            <div className="p-3 text-sm text-foreground/80 border-b">
               Notifications
             </div>
             <div className="max-h-60 overflow-y-auto">
@@ -41,7 +42,7 @@ function Navbar() {
                 📦 Order #1234 has been shipped.
               </DropdownMenuItem>
             </div>
-            <DropdownMenuItem className="text-center text-xs text-blue-600 hover:underline border-t">
+            <DropdownMenuItem className="text-center text-xs text-primary hover:underline border-t">
               View all
             </DropdownMenuItem>
           </DropdownMenuContent>

@@ -7,7 +7,7 @@ import PrivateRoute from "./routes/PrivateRoute";
 import MainLayout from "./layouts/MainLayout";
 import Dashboard from "./pages/Dashboard";
 import ChatPage from "./pages/ChatPage";
-import Wardrobe from "./pages/Wardrobe";
+import Wardrobe from "./pages/WardrobePage";
 
 export {
   Login,

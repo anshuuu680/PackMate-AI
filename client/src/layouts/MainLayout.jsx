@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
+import Sidebar from "../components/common/Sidebar";
+import Navbar from "../components/common/Navbar";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Card } from "@/components/ui/card";
 
 function MainLayout() {
   const [collapsed, setCollapsed] = useState(true);
@@ -18,9 +17,7 @@ function MainLayout() {
         <Navbar />
 
         <ScrollArea className="flex-1 p-4">
-          <div className="w-full h-full p-4">
-            <Outlet />
-          </div>
+          <Outlet />
         </ScrollArea>
       </main>
     </div>

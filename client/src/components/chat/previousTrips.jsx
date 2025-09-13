@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-export function PreviousTrips() {
+export default function PreviousTrips() {
   const trips = ["London 🇬🇧", "New York 🗽", "Rome 🇮🇹"];
 
   return (

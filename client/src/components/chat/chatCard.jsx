@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MapPin, Calendar, Shirt } from "lucide-react";
 
-export function ChatCard({ message }) {
+export default function ChatCard({ message }) {
   if (message.cardType === "tripSummary") {
     return (
       <Card className="bg-white border border-gray-200 rounded-lg shadow p-4 text-sm w-72">
