@@ -90,7 +90,7 @@ User.init(
     },
   },
   {
-    sequelize, // <- must be in options
+    sequelize,
     modelName: "User",
     tableName: "users",
     timestamps: true,
@@ -110,9 +110,3 @@ User.init(
 );
 
 export default User;
-
-// older version when we use define instead of init
-
-// User.prototype.isPasswordCorrect = async function(password) {
-//   return await bcrypt.compare(password, this.password);
-// };

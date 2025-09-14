@@ -16,7 +16,7 @@ function MainLayout() {
       <main className="flex-1 flex flex-col">
         <Navbar />
 
-        <ScrollArea className="flex-1 p-4">
+        <ScrollArea className="flex-1">
           <Outlet />
         </ScrollArea>
       </main>

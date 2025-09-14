@@ -9,9 +9,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ModeToggle } from "./mode-toggle";
 import UpdateProfileModal from "./UpdateProfile";
+import LogoutModal from "@/components/common/LogoutModal"; // import your modal
 
 function Navbar() {
   const [profileModal, setProfileModal] = useState(false);
+  const [logoutModal, setLogoutModal] = useState(false);
+
+  const handleLogout = () => {
+    // perform your logout logic here
+    console.log("Logged out!");
+    setLogoutModal(false);
+  };
 
   return (
     <>
@@ -71,7 +79,7 @@ function Navbar() {
               <User size={16} /> My Profile
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => console.log("Logout clicked")}
+              onClick={() => setLogoutModal(true)}
               className="flex items-center gap-2 text-destructive"
             >
               <LogOut size={16} /> Logout
@@ -83,6 +91,12 @@ function Navbar() {
       <UpdateProfileModal
         isOpen={profileModal}
         onClose={() => setProfileModal(false)}
+      />
+
+      <LogoutModal
+        isOpen={logoutModal}
+        onConfirm={handleLogout}
+        onCancel={() => setLogoutModal(false)}
       />
     </>
   );

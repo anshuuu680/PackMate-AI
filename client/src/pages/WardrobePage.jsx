@@ -28,7 +28,6 @@ const categories = [
   "Accessories",
 ];
 
-// ✅ Dummy products
 const initialProducts = [
   {
     id: 1,
@@ -76,13 +75,14 @@ function WardrobePage() {
     filter === "All" ? products : products.filter((p) => p.category === filter);
 
   return (
-    <div className="p-6 flex flex-col gap-6">
-      <div className="flex items-center justify-between">
+    <div className="p-4 sm:p-6 flex flex-col gap-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0">
         <h1 className="text-2xl font-semibold text-primary">Wardrobe</h1>
-        <div className="flex gap-3">
-          {/* Filter */}
+
+        <div className="flex flex-col-reverse sm:flex-row gap-3 w-full sm:w-auto">
           <Select onValueChange={(val) => setFilter(val)} defaultValue="All">
-            <SelectTrigger className="w-40">
+            <SelectTrigger className="w-full sm:w-40">
               <SelectValue placeholder="Filter by category" />
             </SelectTrigger>
             <SelectContent>
@@ -94,10 +94,9 @@ function WardrobePage() {
             </SelectContent>
           </Select>
 
-          {/* Add Outfit */}
           <Dialog>
             <DialogTrigger asChild>
-              <Button>Add Outfit</Button>
+              <Button className="w-full sm:w-auto">Add Outfit</Button>
             </DialogTrigger>
             <DialogContent className="max-w-lg">
               <DialogHeader>
@@ -109,7 +108,8 @@ function WardrobePage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      {/* Products Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
             <WardrobeCard
@@ -137,6 +137,7 @@ function WardrobePage() {
         )}
       </div>
 
+      {/* Delete Modal */}
       {showDeleteModal && (
         <DeleteModal
           isOpen={showDeleteModal}

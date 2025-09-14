@@ -21,8 +21,7 @@ export const protect = asyncHandler(async (req, res, next) => {
     if (!user) {
       throw new ApiError(401, "Invalid Access Token");
     }
-
-    req.user = user;
+    req.user = user?.dataValues;
     next();
   } catch (error) {
     throw new ApiError(401, error?.message || "Invalid access token");

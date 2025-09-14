@@ -22,9 +22,13 @@ app.use(morgan("dev"));
 
 import userRoutes from "./src/routes/user.routes.js";
 import aiRoutes from "./src/routes/ai.routes.js";
+import wardrobeRoutes from "./src/routes/wardrobe.routes.js";
+import chatRoutes from "./src/routes/chat.routes.js";
 
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/ai", aiRoutes);
+app.use("/api/v1/wardrobe", wardrobeRoutes);
+app.use("/api/v1/chat", chatRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
