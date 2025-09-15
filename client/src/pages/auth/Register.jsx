@@ -1,4 +1,15 @@
 import { useAuthFormFormik } from "../../hooks/useAuthFormFormik";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { FcGoogle } from "react-icons/fc";
 
 function Register() {
   const formik = useAuthFormFormik("register", (values) => {
@@ -6,92 +17,111 @@ function Register() {
   });
 
   return (
-    <div className="w-full bg-primary min-h-screen flex flex-col lg:flex-row items-center justify-center lg:justify-around">
-      <div className="w-full lg:w-[40%] flex justify-center items-center p-6">
-        <div className="w-full sm:w-[90%] rounded-md shadow-lg bg-white py-10 px-6 flex flex-col justify-center items-center gap-8">
-          <div className="flex flex-col items-center gap-1">
-            <h1 className="text-2xl font-bold">Create Account</h1>
-            <p className="text-sm text-gray-400">Join us today!</p>
+    <div className="w-full bg-primary/5 min-h-screen flex items-center justify-center">
+      <Card className="w-full max-w-md shadow-lg">
+        {/* Header */}
+        <CardHeader className="space-y-1 text-center">
+          <CardTitle className="text-2xl font-semibold">
+            Create Account
+          </CardTitle>
+          <CardDescription>
+            Join PackMate AI and start your journey today!
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent className="space-y-4">
+          {/* Google Sign-In */}
+          <Button
+            variant="outline"
+            className="w-full flex items-center gap-2"
+            onClick={() => console.log("Google register clicked")}
+          >
+            <FcGoogle className="w-5 h-5" />
+            Sign up with Google
+          </Button>
+
+          {/* Divider */}
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">
+                Or continue with
+              </span>
+            </div>
           </div>
 
-          <form
-            onSubmit={formik.handleSubmit}
-            className="w-full flex flex-col items-center"
-          >
-            <div className="flex w-full flex-col gap-1">
-              <label className="input-label" htmlFor="email">
-                Email
-              </label>
-              <input
+          {/* Register Form */}
+          <form onSubmit={formik.handleSubmit} className="space-y-4">
+            {/* Email */}
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
                 type="text"
                 name="email"
                 placeholder="e.g. john@john.com"
                 value={formik.values?.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="input-box font-light"
               />
-              <div className="min-h-[16px]">
-                {formik.touched.email && formik.errors.email && (
-                  <p className="p-error">{formik.errors.email}</p>
-                )}
-              </div>
+              {formik.touched.email && formik.errors.email && (
+                <p className="text-sm text-red-500">{formik.errors.email}</p>
+              )}
             </div>
 
-            <div className="flex w-full flex-col gap-1">
-              <label className="input-label" htmlFor="password">
-                Password
-              </label>
-              <input
+            {/* Password */}
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
                 type="password"
                 name="password"
                 placeholder="••••••••"
                 value={formik.values?.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="input-box font-light"
               />
-              <div className="min-h-[16px]">
-                {formik.touched.password && formik.errors.password && (
-                  <p className="p-error">{formik.errors.password}</p>
-                )}
-              </div>
+              {formik.touched.password && formik.errors.password && (
+                <p className="text-sm text-red-500">{formik.errors.password}</p>
+              )}
             </div>
 
-            <div className="flex w-full flex-col gap-1">
-              <label className="input-label" htmlFor="confirmPassword">
-                Confirm Password
-              </label>
-              <input
+            {/* Confirm Password */}
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Input
+                id="confirmPassword"
                 type="password"
                 name="confirmPassword"
                 placeholder="••••••••"
                 value={formik.values?.confirmPassword}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className="input-box font-light"
               />
-              <div className="min-h-[16px]">
-                {formik.touched.confirmPassword &&
-                  formik.errors.confirmPassword && (
-                    <p className="p-error">{formik.errors.confirmPassword}</p>
-                  )}
-              </div>
+              {formik.touched.confirmPassword &&
+                formik.errors.confirmPassword && (
+                  <p className="text-sm text-red-500">
+                    {formik.errors.confirmPassword}
+                  </p>
+                )}
             </div>
 
-            <button className="submit-button mt-6" type="submit">
+            {/* Submit */}
+            <Button type="submit" className="w-full">
               Register
-            </button>
-
-            <p className="text-sm text-gray-500 mt-4 font-semibold">
-              Already have an account?{" "}
-              <a href="/auth/login" className="text-blue-600 hover:underline">
-                Login
-              </a>
-            </p>
+            </Button>
           </form>
-        </div>
-      </div>
+
+          <p className="text-sm text-center text-muted-foreground">
+            Already have an account?{" "}
+            <a href="/auth/login" className="text-blue-600 hover:underline">
+              Login
+            </a>
+          </p>
+        </CardContent>
+      </Card>
     </div>
   );
 }

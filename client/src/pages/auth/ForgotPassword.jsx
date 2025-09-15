@@ -1,5 +1,16 @@
 import { useAuthFormFormik } from "../../hooks/useAuthFormFormik";
 import { useNavigate } from "react-router-dom";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Lock } from "lucide-react";
 
 function ForgotPassword() {
   const navigate = useNavigate();
@@ -8,51 +19,56 @@ function ForgotPassword() {
   });
 
   return (
-    <div className="w-full bg-primary min-h-screen flex  justify-center lg:justify-around items-center lg:items-start pt-12 lg:pt-20">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg lg:w-[40%] flex flex-col items-center gap-6 p-6">
-        <div className="flex flex-col items-center gap-3">
-          <div className="p-3 rounded-lg bg-gray-200">
-            <img className="w-7 h-7 object-cover" src="/lock.svg" alt="" />
+    <div className="w-full bg-primary/5 min-h-screen flex items-center justify-center">
+      <Card className="w-full max-w-md shadow-lg">
+        {/* Header */}
+        <CardHeader className="space-y-2 text-center">
+          <div className="mx-auto p-3 rounded-lg bg-gray-100 w-fit">
+            <Lock className="w-6 h-6 text-gray-600" />
           </div>
-          <h1 className="text-2xl font-semibold">Forgot Password</h1>
-          <p className="font-light w-[70%] text-sm text-center text-gray-700">
-            Please enter your email address below, and we'll send you a 5 digit
-            code.
-          </p>
-        </div>
-        <form
-          onSubmit={formik.handleSubmit}
-          className="w-full flex flex-col items-center"
-        >
-          <div className="flex w-full flex-col gap-1">
-            <label className="input-label" htmlFor="email">
-              Email
-            </label>
-            <input
-              type="text"
-              name="email"
-              placeholder="e.g. john@john.com"
-              value={formik.values?.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className="input-box font-light"
-            />
-            <div className="min-h-[16px]">
+          <CardTitle className="text-2xl font-semibold">
+            Forgot Password
+          </CardTitle>
+          <CardDescription>
+            Enter your email below and we’ll send you a 5-digit code.
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent>
+          {/* Form */}
+          <form onSubmit={formik.handleSubmit} className="space-y-4">
+            {/* Email */}
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="text"
+                name="email"
+                placeholder="e.g. john@john.com"
+                value={formik.values?.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
               {formik.touched.email && formik.errors.email && (
-                <p className="p-error">{formik.errors.email}</p>
+                <p className="text-sm text-red-500">{formik.errors.email}</p>
               )}
             </div>
-          </div>
-          <div className="flex w-full justify-end">
-            <a href="/login" className="text-sm text-blue-600 hover:underline">
-              Login?
-            </a>
-          </div>
-          <button className="submit-button mt-6 w-full" type="submit">
-            Get 5-Digit Code
-          </button>
-        </form>
-      </div>
+
+            <div className="flex justify-end">
+              <a
+                href="/auth/login"
+                className="text-sm text-blue-600 hover:underline"
+              >
+                Back to Login
+              </a>
+            </div>
+
+            <Button type="submit" className="w-full">
+              Get 5-Digit Code
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 }

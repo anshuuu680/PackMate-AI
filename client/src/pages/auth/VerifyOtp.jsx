@@ -1,7 +1,15 @@
 import { useAuthFormFormik } from "../../hooks/useAuthFormFormik";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Lock } from "lucide-react";
 
 function VerifyOtp() {
   const navigate = useNavigate();
@@ -19,8 +27,7 @@ function VerifyOtp() {
 
     const otpArray = formik.values.otp.split("");
     otpArray[index] = value;
-    const newOtp = otpArray.join("");
-    formik.setFieldValue("otp", newOtp);
+    formik.setFieldValue("otp", otpArray.join(""));
 
     if (value && index < 4) {
       inputRefs.current[index + 1]?.focus();
@@ -34,58 +41,62 @@ function VerifyOtp() {
   };
 
   return (
-    <div className="w-full bg-primary min-h-screen flex  justify-center lg:justify-around items-center lg:items-start pt-12 lg:pt-20">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg lg:w-[40%] flex flex-col items-center gap-6 p-6">
-        <div className="flex flex-col items-center gap-3">
-          <div className="p-3 rounded-lg bg-gray-200">
-            <img className="w-7 h-7 object-cover" src="/lock.svg" alt="" />
+    <div className="w-full bg-primary/5 min-h-screen flex items-center justify-center">
+      <Card className="w-full max-w-md shadow-lg">
+        <CardHeader className="space-y-2 text-center">
+          <div className="mx-auto p-3 rounded-lg bg-gray-100 w-fit">
+            <Lock className="w-6 h-6 text-gray-600" />
           </div>
-          <h1 className="text-2xl font-semibold">Verify OTP</h1>
-          <p className="font-light text-sm text-center text-gray-700">
+          <CardTitle className="text-2xl font-semibold">Verify OTP</CardTitle>
+          <CardDescription>
             We sent a code to{" "}
-            <span className="font-semibold">
-              {email || "your email address"}
-            </span>
+            <span className="font-medium">{email || "your email address"}</span>
             .
-          </p>
-        </div>
+          </CardDescription>
+        </CardHeader>
 
-        <form
-          onSubmit={formik.handleSubmit}
-          className="w-full flex flex-col items-center"
-        >
-          <div className="flex gap-3 justify-center w-full">
-            {[0, 1, 2, 3, 4].map((i) => (
-              <input
-                key={i}
-                ref={(el) => (inputRefs.current[i] = el)}
-                type="text"
-                maxLength={1}
-                value={formik.values.otp[i] || ""}
-                onChange={(e) => handleOtpChange(e, i)}
-                onKeyDown={(e) => handleKeyDown(e, i)}
-                className="w-12 h-12 border rounded-lg text-center text-lg focus:outline-none border-gray-400 focus:border-blue-500"
-              />
-            ))}
-          </div>
-          <div className="min-h-[16px] mt-2">
+        <CardContent>
+          <form onSubmit={formik.handleSubmit} className="space-y-6">
+            <div className="flex gap-3 justify-center">
+              {[0, 1, 2, 3, 4].map((i) => (
+                <input
+                  key={i}
+                  ref={(el) => (inputRefs.current[i] = el)}
+                  type="text"
+                  maxLength={1}
+                  value={formik.values.otp[i] || ""}
+                  onChange={(e) => handleOtpChange(e, i)}
+                  onKeyDown={(e) => handleKeyDown(e, i)}
+                  className="w-12 h-12 border rounded-lg text-center text-lg outline-none  focus:border-sky-600 focus:border-2"
+                />
+              ))}
+            </div>
+
+            {/* Error */}
             {formik.touched.otp && formik.errors.otp && (
-              <p className="p-error">{formik.errors.otp}</p>
+              <p className="text-sm text-red-500 text-center">
+                {formik.errors.otp}
+              </p>
             )}
-          </div>
 
-          <button className="submit-button mt-6 w-full" type="submit">
-            Verify OTP
-          </button>
+            {/* Submit */}
+            <Button type="submit" className="w-full">
+              Verify OTP
+            </Button>
 
-          <div className="flex w-full text-sm justify-center mt-3">
-            <h1>Didn't receive email? &nbsp;</h1>
-            <a href="/login" className=" text-blue-600 hover:underline">
-              Click to resend?
-            </a>
-          </div>
-        </form>
-      </div>
+            {/* Resend */}
+            <p className="text-sm text-center text-muted-foreground">
+              Didn’t receive the email?{" "}
+              <a
+                href="/auth/forgot-password"
+                className="text-blue-600 hover:underline"
+              >
+                Resend code
+              </a>
+            </p>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 }
