@@ -19,10 +19,18 @@ export default function DeleteModal({ isOpen, onConfirm, onCancel }) {
           </p>
         </DialogHeader>
         <DialogFooter className="flex justify-end gap-2">
-          <Button variant="outline" onClick={onCancel}>
+          <Button
+            className={"cursor-pointer"}
+            variant="outline"
+            onClick={onCancel}
+          >
             Cancel
           </Button>
-          <Button variant="destructive" onClick={onConfirm}>
+          <Button
+            className={"cursor-pointer"}
+            variant="destructive"
+            onClick={onConfirm}
+          >
             Delete
           </Button>
         </DialogFooter>

@@ -4,18 +4,18 @@ import { Send } from "lucide-react";
 
 export default function ChatInput({ value, onChange, onSend }) {
   return (
-    <div className="p-3 flex items-center gap-2 sticky bottom-0 border-t border-gray-200">
+    <div className="px-3 flex h-full items-center gap-2 sticky bottom-0">
       <Input
-        placeholder="Type your message..."
+        placeholder="Ask anything..."
         value={value}
         onChange={onChange}
         className="flex-1"
       />
       <Button
         onClick={onSend}
-        className="p-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full hover:shadow-md transition-shadow"
+        className="text-white bg-sky-800 hover:bg-sky-950 cursor-pointer rounded-full "
       >
-        <Send size={18} />
+        <Send size={24} />
       </Button>
     </div>
   );

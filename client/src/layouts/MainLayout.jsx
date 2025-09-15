@@ -8,18 +8,20 @@ function MainLayout() {
   const [collapsed, setCollapsed] = useState(true);
 
   return (
-    <div className="w-full h-screen flex relative">
+    <div className="w-full h-screen flex">
       <aside className="transition-all duration-300 ease-out">
         <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
       </aside>
 
-      <main className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col">
         <Navbar />
 
         <ScrollArea className="flex-1">
-          <Outlet />
+          <div className="p-2">
+            <Outlet />
+          </div>
         </ScrollArea>
-      </main>
+      </div>
     </div>
   );
 }

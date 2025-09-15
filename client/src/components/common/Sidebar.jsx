@@ -62,7 +62,6 @@ function Sidebar({ collapsed, setCollapsed }) {
             </Button>
           </div>
 
-          {/* Nav Links */}
           <div className="flex flex-col mt-4 gap-1.5 px-2 flex-1">
             {links.map((link) => {
               const Icon = link.icon;
@@ -76,7 +75,7 @@ function Sidebar({ collapsed, setCollapsed }) {
                     } gap-3 rounded-md p-2 text-sm transition-colors
                     ${
                       isActive
-                        ? "bg-accent text-accent-foreground"
+                        ? "bg-accent text-primary"
                         : "hover:bg-accent hover:text-accent-foreground"
                     }`
                   }
@@ -90,7 +89,7 @@ function Sidebar({ collapsed, setCollapsed }) {
                               size={18}
                               className={
                                 isActive
-                                  ? "text-primary"
+                                  ? "text-blue-300"
                                   : "text-muted-foreground"
                               }
                             />
@@ -105,11 +104,17 @@ function Sidebar({ collapsed, setCollapsed }) {
                             size={18}
                             className={
                               isActive
-                                ? "text-primary"
+                                ? "text-blue-300"
                                 : "text-muted-foreground"
                             }
                           />
-                          <span>{link.name}</span>
+                          <span
+                            className={
+                              isActive ? "text-blue-300" : "text-foreground"
+                            }
+                          >
+                            {link.name}
+                          </span>
                         </>
                       )}
                     </>

@@ -1,8 +1,64 @@
 import { useState } from "react";
-import ChatMessages from "../components/chat/ChatMessage";
-import ChatInput from "../components/chat/ChatInput";
-import PreviousTrips from "../components/chat/PreviousTrips";
-import DeleteModal from "@/components/common/DeleteModal";
+import ChatCard from "@/components/chat/ChatCard";
+import ChatWindow from "@/components/chat/ChatWindow";
+import PreviousTrips from "@/components/chat/PreviousTrips";
+
+const dummyMessages = [
+  {
+    from: "assistant",
+    type: "text",
+    text: "Hello! Welcome back. Ready to plan your next trip? ✈️",
+    timestamp: "2025-09-15T10:00:00Z",
+  },
+  {
+    from: "assistant",
+    type: "text",
+    text: "Hello! Welcome back. Ready to plan your next trip? ✈️",
+    timestamp: "2025-09-15T10:00:00Z",
+  },
+  {
+    from: "assistant",
+    type: "text",
+    text: "Hello! Welcome back. Ready to plan your next trip? ✈️",
+    timestamp: "2025-09-15T10:00:00Z",
+  },
+  {
+    from: "user",
+    type: "text",
+    text: "Yes, let's plan a trip to Paris!",
+    timestamp: "2025-09-15T10:01:00Z",
+  },
+  {
+    from: "user",
+    type: "text",
+    text: "Yes, let's plan a trip to Paris!",
+    timestamp: "2025-09-15T10:01:00Z",
+  },
+  {
+    from: "user",
+    type: "text",
+    text: "Yes, let's plan a trip to Paris!",
+    timestamp: "2025-09-15T10:01:00Z",
+  },
+  {
+    from: "assistant",
+    type: "text",
+    text: "Great! I can suggest hotels, activities, and flights for Paris. 🗼",
+    timestamp: "2025-09-15T10:02:00Z",
+  },
+  {
+    from: "user",
+    type: "text",
+    text: "Show me the best hotels near the Eiffel Tower.",
+    timestamp: "2025-09-15T10:03:00Z",
+  },
+  {
+    from: "assistant",
+    type: "text",
+    text: "Here are some highly rated options: Hotel A, Hotel B, Hotel C.",
+    timestamp: "2025-09-15T10:04:00Z",
+  },
+];
 
 export default function ChatPage() {
   const [messages, setMessages] = useState([]);
@@ -38,49 +94,18 @@ export default function ChatPage() {
   const noMessages = messages.length === 0;
 
   return (
-    <div className="flex h-full gap-6 p-6">
-      {/* Chat Area */}
-      <div className="flex-1 flex flex-col h-full">
-        {noMessages ? (
-          <div className="flex-1 flex flex-col justify-center items-center text-center gap-4">
-            <h1 className="text-3xl font-bold text-gray-800">
-              Start Your Trip Planning ✈️
-            </h1>
-            <p className="text-gray-500 max-w-xs">
-              Ask PackMate AI for packing suggestions, trip summaries, or outfit
-              ideas.
-            </p>
-            <div className="w-full max-w-md mt-2">
-              <ChatInput
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onSend={sendMessage}
-              />
-            </div>
-          </div>
-        ) : (
-          <div className="flex flex-col flex-1 h-full">
-            <ChatMessages messages={messages} className="flex-1" />
-            <ChatInput
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onSend={sendMessage}
-            />
-          </div>
-        )}
+    <div className="flex p-4 sm:p-4 gap-6 ">
+      <div className="md:w-2/3 w-full h-full">
+        <ChatWindow
+          messages={dummyMessages}
+          input={input}
+          setInput={setInput}
+          sendMessage={sendMessage}
+        />
       </div>
-
-      {/* Previous Trips */}
-      <div className="hidden md:block w-60 h-full">
+      <div className="h-full flex-1 hidden md:block">
         <PreviousTrips />
       </div>
-
-      {/* Delete Modal */}
-      <DeleteModal
-        isOpen={showDeleteModal}
-        onConfirm={confirmDelete}
-        onCancel={() => setShowDeleteModal(false)}
-      />
     </div>
   );
 }
