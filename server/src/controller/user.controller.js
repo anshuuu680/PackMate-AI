@@ -3,6 +3,9 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
+import { OAuth2Client } from "google-auth-library";
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const cookieOptions = {
   httpOnly: true,
@@ -54,13 +57,19 @@ export const user = {
       .status(201)
       .cookie("accessToken", accessToken, cookieOptions)
       .cookie("refreshToken", refreshToken, cookieOptions)
-      .json(new ApiResponse(201, safeUser, "User registered successfully"));
+      .json(
+        new ApiResponse(
+          201,
+          { user: safeUser, accessToken, refreshToken },
+          "User registered successfully"
+        )
+      );
   }),
 
   login: asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
-    if (!email || !password) {
+    if (!email) {
       throw new ApiError(400, "Email and password are required");
     }
 
@@ -78,6 +87,7 @@ export const user = {
       id: user.id,
       email: user.email,
       fullName: user.fullName,
+      avatar: user.avatar,
     };
 
     return res
@@ -89,6 +99,59 @@ export const user = {
           200,
           { user: safeUser, accessToken, refreshToken },
           "User logged in successfully"
+        )
+      );
+  }),
+
+  googleLogin: asyncHandler(async (req, res) => {
+    console.log("Google login request body:", req.body);
+    const { token } = req.body;
+    if (!token) throw new ApiError(400, "Google token is required");
+
+    // Verify Google token
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+
+    // Check if user exists
+    let existingUser = await User.findOne({ where: { email: payload.email } });
+
+    if (!existingUser) {
+      // Create user if not exists
+      existingUser = await User.create({
+        email: payload.email,
+        fullName: payload.name,
+        avatar: payload.picture,
+        password: Math.random().toString(36).slice(-8), // random password for record
+      });
+    }
+
+    // Generate JWT tokens
+    const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
+      existingUser.id
+    );
+
+    const safeUser = {
+      id: existingUser.id,
+      email: existingUser.email,
+      fullName: existingUser.fullName,
+      avatar: existingUser.avatar,
+    };
+
+    console.log("Google login successful for user:", safeUser.email);
+
+    return res
+      .status(200)
+      .cookie("accessToken", accessToken, cookieOptions)
+      .cookie("refreshToken", refreshToken, cookieOptions)
+      .json(
+        new ApiResponse(
+          200,
+          { user: safeUser, accessToken, refreshToken },
+          "Logged in with Google successfully"
         )
       );
   }),

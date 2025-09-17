@@ -10,10 +10,56 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
-  const formik = useAuthFormFormik("register", (values) => {
-    console.log("Register values:", values);
+  const navigate = useNavigate();
+  const formik = useAuthFormFormik("register", async (values) => {
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/user/register`,
+        values
+      );
+
+      localStorage.setItem("token", res.data?.data?.accessToken);
+      localStorage.setItem("refreshToken", res.data?.data?.refreshToken);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      if (res?.data?.statusCode === 200) navigate("/users/chat");
+    } catch (err) {
+      console.error("Register failed:", err.response?.data || err.message);
+    }
+  });
+
+  // Handle Google signup as custom button
+  const handleGoogleRegister = useGoogleLogin({
+    onSuccess: async (credentialResponse) => {
+      try {
+        const token = credentialResponse.credential;
+        console.log("Google token:", token);
+
+        const res = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/user/google-login`,
+          { token },
+          { withCredentials: true }
+        );
+
+        console.log(res);
+
+        localStorage.setItem("token", res.data.accessToken);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        if (res?.data?.statusCode === 200) navigate("/users/chat");
+      } catch (err) {
+        console.error(
+          "Google signup failed:",
+          err.response?.data || err.message
+        );
+      }
+    },
+    onError: () => {
+      console.log("Google signup failed");
+    },
   });
 
   return (
@@ -30,11 +76,11 @@ function Register() {
         </CardHeader>
 
         <CardContent className="space-y-4">
-          {/* Google Sign-In */}
+          {/* Google Sign-Up */}
           <Button
             variant="outline"
             className="w-full flex items-center gap-2"
-            onClick={() => console.log("Google register clicked")}
+            onClick={() => handleGoogleRegister()}
           >
             <FcGoogle className="w-5 h-5" />
             Sign up with Google

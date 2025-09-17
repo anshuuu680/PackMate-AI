@@ -10,10 +10,55 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";
+import { useGoogleLogin } from "@react-oauth/google";
+
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const formik = useAuthFormFormik("login", (values) => {
-    console.log("Login submitted:", values);
+  const navigate = useNavigate();
+  const formik = useAuthFormFormik("login", async (values) => {
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/user/login`,
+        values
+      );
+
+      localStorage.setItem("token", res.data?.data?.accessToken);
+      localStorage.setItem("refreshToken", res.data?.data?.refreshToken);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      if (res?.data?.statusCode === 200) navigate("/users/chat");
+    } catch (err) {
+      console.error("Login failed:", err.response?.data || err.message);
+    }
+  });
+
+  const handleGoogleLogin = useGoogleLogin({
+    flow: "implicit", // must be "implicit"
+    onSuccess: async (credentialResponse) => {
+      const token = credentialResponse.credential;
+      if (!token) return console.log("No token received");
+
+      try {
+        const res = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/user/google-login`,
+          { token },
+          { withCredentials: true }
+        );
+        console.log(res);
+
+        localStorage.setItem("token", res.data.accessToken);
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+
+        if (res?.data?.statusCode === 200) navigate("/users/chat");
+      } catch (err) {
+        console.error(
+          "Google login failed:",
+          err.response?.data || err.message
+        );
+      }
+    },
+    onError: () => console.log("Google login failed"),
   });
 
   return (
@@ -29,15 +74,17 @@ function Login() {
         </CardHeader>
 
         <CardContent className="space-y-6">
+          {/* Google Login */}
           <Button
             variant="outline"
             className="w-full flex items-center justify-center gap-2"
-            onClick={() => console.log("Google login clicked")}
+            onClick={() => handleGoogleLogin()}
           >
             <FcGoogle className="w-5 h-5" />
             Continue with Google
           </Button>
 
+          {/* Divider */}
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t border-muted" />
@@ -49,6 +96,7 @@ function Login() {
             </div>
           </div>
 
+          {/* Email/Password Form */}
           <form onSubmit={formik.handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
@@ -96,7 +144,7 @@ function Login() {
             </Button>
           </form>
 
-          {/* Register link */}
+          {/* Register Link */}
           <p className="text-sm text-center text-muted-foreground">
             Don’t have an account?{" "}
             <a href="/auth/register" className="text-blue-600 hover:underline">

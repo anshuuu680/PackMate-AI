@@ -1,103 +1,49 @@
-import { useState } from "react";
-import ChatCard from "@/components/chat/ChatCard";
+import { useEffect, useState } from "react";
 import ChatWindow from "@/components/chat/ChatWindow";
 import PreviousTrips from "@/components/chat/PreviousTrips";
-
-const dummyMessages = [
-  {
-    from: "assistant",
-    type: "text",
-    text: "Hello! Welcome back. Ready to plan your next trip? ✈️",
-    timestamp: "2025-09-15T10:00:00Z",
-  },
-  {
-    from: "assistant",
-    type: "text",
-    text: "Hello! Welcome back. Ready to plan your next trip? ✈️",
-    timestamp: "2025-09-15T10:00:00Z",
-  },
-  {
-    from: "assistant",
-    type: "text",
-    text: "Hello! Welcome back. Ready to plan your next trip? ✈️",
-    timestamp: "2025-09-15T10:00:00Z",
-  },
-  {
-    from: "user",
-    type: "text",
-    text: "Yes, let's plan a trip to Paris!",
-    timestamp: "2025-09-15T10:01:00Z",
-  },
-  {
-    from: "user",
-    type: "text",
-    text: "Yes, let's plan a trip to Paris!",
-    timestamp: "2025-09-15T10:01:00Z",
-  },
-  {
-    from: "user",
-    type: "text",
-    text: "Yes, let's plan a trip to Paris!",
-    timestamp: "2025-09-15T10:01:00Z",
-  },
-  {
-    from: "assistant",
-    type: "text",
-    text: "Great! I can suggest hotels, activities, and flights for Paris. 🗼",
-    timestamp: "2025-09-15T10:02:00Z",
-  },
-  {
-    from: "user",
-    type: "text",
-    text: "Show me the best hotels near the Eiffel Tower.",
-    timestamp: "2025-09-15T10:03:00Z",
-  },
-  {
-    from: "assistant",
-    type: "text",
-    text: "Here are some highly rated options: Hotel A, Hotel B, Hotel C.",
-    timestamp: "2025-09-15T10:04:00Z",
-  },
-];
+import { initSocket, getSocket } from "../config/socket";
 
 export default function ChatPage() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const sendMessage = () => {
-    if (!input.trim()) return;
-
-    setMessages((prev) => [
-      ...prev,
-      { from: "user", type: "text", text: input },
-    ]);
-    setInput("");
-
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          from: "assistant",
-          type: "text",
-          text: "Got it! I’ll add this to your trip plan ✈️",
-        },
-      ]);
-    }, 1000);
-  };
-
   const confirmDelete = () => {
     setMessages([]);
     setShowDeleteModal(false);
   };
 
-  const noMessages = messages.length === 0;
+  useEffect(() => {
+    const socket = initSocket();
+
+    socket.on("chat:receive", (msg) => {
+      setMessages((prev) => [...prev, msg]);
+    });
+
+    return () => {
+      socket.off("chat:receive");
+    };
+  }, []);
+
+  const sendMessage = () => {
+    if (!input.trim()) return;
+
+    const msg = { from: "user", type: "text", text: input };
+
+    const socket = getSocket();
+
+    socket.emit("chat:send", msg);
+
+    setMessages((prev) => [...prev, msg]);
+
+    setInput("");
+  };
 
   return (
-    <div className="flex p-4 sm:p-4 gap-6 ">
-      <div className="md:w-2/3 w-full h-full">
+    <div className="flex  p-4 sm:p-4 gap-6 ">
+      <div className="md:w-2/3 w-full ">
         <ChatWindow
-          messages={dummyMessages}
+          messages={messages}
           input={input}
           setInput={setInput}
           sendMessage={sendMessage}

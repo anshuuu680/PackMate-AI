@@ -1,13 +1,13 @@
 import { Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectIsAuthenticated } from "../features/auth/authSlice";
 
 function PrivateRoute({ children }) {
-  const isAuthenticated = useSelector(selectIsAuthenticated);
+  // Assume you store a token or auth flag in localStorage
+  const isAuthenticated = localStorage.getItem("token"); // or "isAuthenticated"
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/auth/login" replace />;
   }
+
   return children;
 }
 

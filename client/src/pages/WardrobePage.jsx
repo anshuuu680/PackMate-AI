@@ -131,9 +131,9 @@ function WardrobePage() {
             />
           ))
         ) : (
-          <p className="text-gray-500 col-span-full text-center mt-4">
-            No outfits saved yet.
-          </p>
+          <div className="col-span-full min-h-[50vh] flex items-center justify-center text-center text-gray-500">
+            No outfits found.
+          </div>
         )}
       </div>
 

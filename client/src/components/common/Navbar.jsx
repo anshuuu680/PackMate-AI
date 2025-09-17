@@ -9,25 +9,25 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ModeToggle } from "./mode-toggle";
 import UpdateProfileModal from "./UpdateProfile";
-import LogoutModal from "@/components/common/LogoutModal"; // import your modal
+import LogoutModal from "@/components/common/LogoutModal";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const navigate = useNavigate();
   const [profileModal, setProfileModal] = useState(false);
   const [logoutModal, setLogoutModal] = useState(false);
 
   const handleLogout = () => {
-    // perform your logout logic here
-    console.log("Logged out!");
+    localStorage.clear();
+    navigate("/auth/login");
     setLogoutModal(false);
   };
 
   return (
     <>
       <div className="w-full h-12 border-b bg-surface shadow-sm flex items-center justify-end px-4 sm:px-6 gap-4">
-        {/* Theme toggle */}
         <ModeToggle />
 
-        {/* Notifications */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="relative">
@@ -56,7 +56,6 @@ function Navbar() {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* Profile dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
