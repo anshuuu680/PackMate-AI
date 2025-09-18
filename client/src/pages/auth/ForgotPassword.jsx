@@ -19,7 +19,7 @@ function ForgotPassword() {
   });
 
   return (
-    <div className="w-full bg-primary/5 min-h-screen flex items-center justify-center">
+    <div className="w-full bg-gradient-to-br from-background via-background to-primary/10 min-h-screen flex items-center justify-center">
       <Card className="w-full max-w-md shadow-lg">
         {/* Header */}
         <CardHeader className="space-y-2 text-center">

@@ -13,7 +13,7 @@ export default function ChatMessages({ messages }) {
         >
           {msg.type === "text" && (
             <div
-              className={`px-4 py-2 rounded-2xl max-w-xs sm:max-w-md text-sm shadow-md break-words whitespace-normal max-w-[80vw] ${
+              className={`px-4 py-2 rounded-2xl max-w-xs sm:max-w-md text-sm shadow-md break-words whitespace-normal  ${
                 msg.from === "user"
                   ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
                   : "bg-white border border-gray-200 text-gray-800"

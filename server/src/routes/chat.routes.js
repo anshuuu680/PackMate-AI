@@ -6,6 +6,5 @@ const router = Router();
 
 // protected routes
 router.route("/all-chats").get(protect, chat.fetchAllChats);
-router.route("/receive-message").post(protect, chat.receiveMessage);
 
 export default router;

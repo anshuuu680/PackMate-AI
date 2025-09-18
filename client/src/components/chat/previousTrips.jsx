@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PreviousTripCard } from "./PreviousTripCard";
 
-export default function PreviousTrips() {
+export default function PreviousTrips({ chats }) {
   const trips = [
     {
       destination: "London 🇬🇧",

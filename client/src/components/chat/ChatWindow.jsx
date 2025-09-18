@@ -9,14 +9,14 @@ function ChatWindow({ messages, input, setInput, sendMessage }) {
   return (
     <div
       className={`flex overflow-hidden flex-col h-full border border-border rounded-lg
-        ${noMessages ? "min-h-[85vh]" : "min-h-[85vh]"}`}
+        ${noMessages ? "min-h-[86vh]" : "min-h-[86vh]"}`}
     >
       {!noMessages && <ChatHeader />}
 
       {noMessages ? (
         <div className="flex flex-1 flex-col justify-center items-center gap-2 p-4 ">
           <h2 className="text-2xl font-semibold text-gray-700 text-center">
-            Start your conversation with PackMate AI
+            Hey PackMate here, your travel companion!
           </h2>
           <p className="text-gray-400 text-center text-sm">
             Ask questions about your trips, plans, or destinations.

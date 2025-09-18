@@ -38,4 +38,6 @@ const Message = sequelize.define(
 Chat.hasMany(Message, { foreignKey: "chatId", onDelete: "CASCADE" });
 Message.belongsTo(Chat, { foreignKey: "chatId" });
 
+Chat.belongsTo(Message, { as: "lastMessage", foreignKey: "lastMessageId" });
+
 export default Message;

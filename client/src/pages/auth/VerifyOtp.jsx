@@ -41,7 +41,7 @@ function VerifyOtp() {
   };
 
   return (
-    <div className="w-full bg-primary/5 min-h-screen flex items-center justify-center">
+    <div className="w-full bg-gradient-to-br from-primary/10 via-background to-background min-h-screen flex items-center justify-center">
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-2 text-center">
           <div className="mx-auto p-3 rounded-lg bg-gray-100 w-fit">

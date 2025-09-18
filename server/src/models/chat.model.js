@@ -10,6 +10,7 @@ const Chat = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
+
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -19,9 +20,21 @@ const Chat = sequelize.define(
       },
       onDelete: "CASCADE",
     },
+
     title: {
       type: DataTypes.STRING,
+      allowNull: false,
       defaultValue: "New Chat",
+    },
+
+    lastMessageId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: "messages",
+        key: "id",
+      },
+      onDelete: "SET NULL",
     },
   },
   {
