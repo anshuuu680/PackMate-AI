@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 
-function WardrobeForm({ onSubmit }) {
+function WardrobeForm({ onSubmit, loading }) {
   const [preview, setPreview] = useState(null);
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
@@ -66,16 +66,17 @@ function WardrobeForm({ onSubmit }) {
       isFavorite,
       image: preview,
     });
-    setName("");
-    setCategory("");
-    setIsFavorite(false);
-    setPreview(null);
-    setImage(null);
+    if (!loading) {
+      setName("");
+      setCategory("");
+      setIsFavorite(false);
+      setPreview(null);
+      setImage(null);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {/* Drag and Drop Upload */}
       <div
         onDragEnter={handleDrag}
         onDragOver={handleDrag}
@@ -118,7 +119,6 @@ function WardrobeForm({ onSubmit }) {
         />
       </div>
 
-      {/* Other Fields */}
       <div className="space-y-3">
         <div>
           <Label htmlFor="name">Product Name</Label>
@@ -158,7 +158,7 @@ function WardrobeForm({ onSubmit }) {
       </div>
 
       <Button type="submit" className="w-full mt-4">
-        Add to Wardrobe
+        {loading ? "Adding to Wardrobe" : "Add to Wardrobe"}
       </Button>
     </form>
   );

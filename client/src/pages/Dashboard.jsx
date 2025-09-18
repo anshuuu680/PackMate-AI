@@ -1,28 +1,23 @@
 import React, { useState } from "react";
-
-import { Users, CalendarDays, Package } from "lucide-react";
+import { CalendarDays, Package } from "lucide-react";
 import StatsCard from "@/components/dashboard/StatsCard";
 import LineChartCard from "@/components/dashboard/LineChartCard";
 import BarChartCard from "@/components/dashboard/BarChartCard";
-import SmallCalendar from "@/components/dashboard/SmallCalender";
 import RecentTripsList from "@/components/dashboard/RecentTrips";
 
 export default function Dashboard() {
-  const [selectedDay, setSelectedDay] = useState();
-
   const stats = [
     {
       title: "Total Trips",
       value: 12,
       subtitle: "since Jan 2025",
-      icon: <CalendarDays />,
+      icon: <CalendarDays className="w-6 h-6 text-sky-500" />,
     },
-
     {
       title: "Upcoming Trips",
       value: 5,
       subtitle: "next 30 days",
-      icon: <Package />,
+      icon: <Package className="w-6 h-6 text-green-500" />,
     },
   ];
 
@@ -67,22 +62,32 @@ export default function Dashboard() {
   return (
     <div className="p-6 space-y-6">
       {/* Top stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {stats.map((s, i) => (
-          <StatsCard key={i} {...s} />
+          <StatsCard key={i} {...s} className="h-24 p-3" />
         ))}
       </div>
 
-      {/* Charts + Calendar */}
+      {/* Charts + Right Sidebar */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2 space-y-4">
-          <LineChartCard title="Weekly Engagement" data={lineData} />
-          <BarChartCard title="Service Breakdown" data={barData} />
+          <LineChartCard
+            title="Weekly Engagement"
+            data={lineData}
+            className="h-64"
+          />
+          <BarChartCard
+            title="Service Breakdown"
+            data={barData}
+            className="h-64"
+          />
         </div>
 
         <div className="space-y-4">
-          <SmallCalendar selected={selectedDay} onSelect={setSelectedDay} />
-          <RecentTripsList trips={trips} />
+          <div className="bg-background border rounded-lg p-4 shadow-sm w-full">
+            <h2 className="text-lg font-semibold mb-2">Recent Trips</h2>
+            <RecentTripsList trips={trips} />
+          </div>
         </div>
       </div>
     </div>

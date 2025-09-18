@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import WardrobeForm from "@/components/wardrobe/WardrobeForm";
+import React, { useState, useEffect, useCallback } from "react";
+import axios from "axios";
 import WardrobeCard from "@/components/wardrobe/WardrobeCard";
 import DeleteModal from "@/components/common/DeleteModal";
 import {
@@ -9,14 +9,7 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import AddWardrobeItem from "@/components/wardrobe/AddWardrobeItem";
 
 const categories = [
   "All",
@@ -28,48 +21,71 @@ const categories = [
   "Accessories",
 ];
 
-const initialProducts = [
-  {
-    id: 1,
-    name: "Blue Denim Jacket",
-    category: "Jacket",
-    image:
-      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=800&q=80",
-    isFavorite: false,
-  },
-  {
-    id: 2,
-    name: "White Sneakers",
-    category: "Shoes",
-    image:
-      "https://images.unsplash.com/photo-1528701800489-20be9c5e93d7?auto=format&fit=crop&w=800&q=80",
-    isFavorite: true,
-  },
-  {
-    id: 3,
-    name: "Casual T-Shirt",
-    category: "T-Shirt",
-    image:
-      "https://images.unsplash.com/photo-1520975922091-4368b07fddc1?auto=format&fit=crop&w=800&q=80",
-    isFavorite: false,
-  },
-];
-
 function WardrobePage() {
-  const [products, setProducts] = useState(initialProducts);
+  const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState("All");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const addProduct = (product) => {
-    setProducts([...products, { ...product, id: Date.now() }]);
-  };
+  useEffect(() => {
+    const fetchWardrobe = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/wardrobe/get-all`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            withCredentials: true,
+          }
+        );
+        setProducts(res.data?.data || []);
+      } catch (err) {
+        console.error("Failed to fetch wardrobe:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const confirmDelete = () => {
-    setProducts(products.filter((p) => p.id !== productToDelete));
-    setProductToDelete(null);
-    setShowDeleteModal(false);
-  };
+    fetchWardrobe();
+  }, []);
+
+  const handleDelete = useCallback((id) => {
+    setProductToDelete(id);
+    setShowDeleteModal(true);
+  }, []);
+
+  const confirmDelete = useCallback(async () => {
+    if (!productToDelete) return;
+
+    try {
+      await axios.delete(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/wardrobe/delete/${productToDelete}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          withCredentials: true,
+        }
+      );
+
+      setProducts((prev) => prev.filter((p) => p.id !== productToDelete));
+    } catch (err) {
+      console.error("Failed to delete wardrobe item:", err);
+    } finally {
+      setProductToDelete(null);
+      setShowDeleteModal(false);
+    }
+  }, [productToDelete]);
+
+  const handleToggleFavorite = useCallback((id) => {
+    setProducts((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, isFavorite: !p.isFavorite } : p))
+    );
+  }, []);
 
   const filteredProducts =
     filter === "All" ? products : products.filter((p) => p.category === filter);
@@ -94,40 +110,24 @@ function WardrobePage() {
             </SelectContent>
           </Select>
 
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className="w-full sm:w-auto">Add Outfit</Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-lg">
-              <DialogHeader>
-                <DialogTitle>Add Outfit</DialogTitle>
-              </DialogHeader>
-              <WardrobeForm onSubmit={addProduct} />
-            </DialogContent>
-          </Dialog>
+          <AddWardrobeItem
+            onItemAdded={(item) => setProducts((prev) => [...prev, item])}
+          />
         </div>
       </div>
 
-      {/* Products Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {filteredProducts.length > 0 ? (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
+        {loading ? (
+          <div className="col-span-full min-h-[50vh] flex items-center justify-center text-center text-gray-500">
+            Loading wardrobe...
+          </div>
+        ) : filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
             <WardrobeCard
               key={product.id}
               product={product}
-              onDelete={() => {
-                setProductToDelete(product.id);
-                setShowDeleteModal(true);
-              }}
-              onToggleFavorite={() =>
-                setProducts((prev) =>
-                  prev.map((p) =>
-                    p.id === product.id
-                      ? { ...p, isFavorite: !p.isFavorite }
-                      : p
-                  )
-                )
-              }
+              onDelete={() => handleDelete(product.id)}
+              onToggleFavorite={() => handleToggleFavorite(product.id)}
             />
           ))
         ) : (
@@ -137,7 +137,6 @@ function WardrobePage() {
         )}
       </div>
 
-      {/* Delete Modal */}
       {showDeleteModal && (
         <DeleteModal
           isOpen={showDeleteModal}

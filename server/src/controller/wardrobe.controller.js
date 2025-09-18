@@ -10,6 +10,8 @@ export const wardrobe = {
     const { error, value } = ValidationService.validateWardrobeItem(req.body);
     const { id: userId } = req.user;
 
+    console.log(value);
+
     if (error) {
       throw new ApiError(400, "Validation failed", error);
     }
@@ -86,5 +88,25 @@ export const wardrobe = {
             : "Item removed from favorites"
         )
       );
+  }),
+
+  deleteWardrobeItem: asyncHandler(async (req, res) => {
+    const { id: userId } = req.user;
+    const { id } = req.params;
+
+    if (!userId) {
+      throw new ApiError(400, "userId is required");
+    }
+
+    const item = await Wardrobe.findOne({ where: { id, userId } });
+    if (!item) {
+      throw new ApiError(404, "Wardrobe item not found");
+    }
+
+    await item.destroy();
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, null, "Wardrobe item deleted"));
   }),
 };

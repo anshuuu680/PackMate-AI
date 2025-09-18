@@ -6,6 +6,7 @@ const router = Router();
 
 router.route("/add-item").post(protect, wardrobe.addWardrobeItem);
 router.route("/get-all").get(protect, wardrobe.getWardrobe);
-router.route("/:id/favorite").post(protect, wardrobe.toggleFavorite);
+router.route("/favorite/:id").patch(protect, wardrobe.toggleFavorite);
+router.route("/delete/:id").delete(protect, wardrobe.deleteWardrobeItem);
 
 export default router;

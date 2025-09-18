@@ -1,16 +1,41 @@
-import React from "react";
+import React, { useState, memo } from "react";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
+import axios from "axios";
 
 function WardrobeCard({ product, onDelete, onToggleFavorite }) {
+  const [loading, setLoading] = useState(false);
+
+  const handleToggleFavorite = async () => {
+    try {
+      setLoading(true);
+      await axios.patch(
+        `${import.meta.env.VITE_BACKEND_URL}/wardrobe/favorite/${product.id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          withCredentials: true,
+        }
+      );
+      onToggleFavorite(product.id);
+    } catch (err) {
+      console.error("Failed to toggle favorite:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Card className="relative overflow-hidden hover:shadow-lg transition-shadow">
       {product.image && (
         <img
-          src={product.image}
-          alt={product.name}
+          // src={product.image}
+          // alt={product.name}
           className="w-full h-48 object-cover rounded-t-lg"
         />
       )}
@@ -28,7 +53,8 @@ function WardrobeCard({ product, onDelete, onToggleFavorite }) {
             <Switch
               id={`favorite-${product.id}`}
               checked={product.isFavorite}
-              onCheckedChange={onToggleFavorite}
+              onCheckedChange={handleToggleFavorite}
+              disabled={loading}
             />
             <label
               htmlFor={`favorite-${product.id}`}
@@ -50,4 +76,4 @@ function WardrobeCard({ product, onDelete, onToggleFavorite }) {
   );
 }
 
-export default WardrobeCard;
+export default memo(WardrobeCard);
