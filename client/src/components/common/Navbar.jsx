@@ -11,14 +11,17 @@ import { ModeToggle } from "./mode-toggle";
 import UpdateProfileModal from "./UpdateProfile";
 import LogoutModal from "@/components/common/LogoutModal";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 function Navbar() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [profileModal, setProfileModal] = useState(false);
   const [logoutModal, setLogoutModal] = useState(false);
 
   const handleLogout = () => {
     localStorage.clear();
+    dispatch({ type: "RESET_STORE" });
     navigate("/auth/login");
     setLogoutModal(false);
   };

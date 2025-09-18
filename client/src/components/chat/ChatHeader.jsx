@@ -3,13 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Trash2, Search } from "lucide-react";
 import DeleteModal from "@/components/common/DeleteModal";
 
-function ChatHeader({ onConfirmDelete }) {
+function ChatHeader({ onConfirmDelete, activeChat }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const inputRef = useRef(null);
 
-  // Autofocus when search opens
   useEffect(() => {
     if (searchOpen && inputRef.current) {
       inputRef.current.focus();
@@ -30,7 +29,7 @@ function ChatHeader({ onConfirmDelete }) {
           </div>
           <div className="flex flex-col">
             <span className="font-semibold text-sm sm:text-sm">
-              Paris 2025 Trip
+              {activeChat?.title || "New Chat"}
             </span>
           </div>
         </div>
@@ -77,7 +76,7 @@ function ChatHeader({ onConfirmDelete }) {
         description="Are you sure you want to delete this chat? This action cannot be undone."
         isOpen={showDeleteModal}
         onConfirm={() => {
-          onConfirmDelete?.();
+          onConfirmDelete();
           setShowDeleteModal(false);
         }}
         onCancel={() => setShowDeleteModal(false)}
