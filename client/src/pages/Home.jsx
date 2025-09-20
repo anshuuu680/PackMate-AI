@@ -437,7 +437,7 @@ function Home() {
       {/* Call to Action */}
       <section className="relative py-24 px-6 bg-gradient-to-r from-sky-950 via-blue-950 to-indigo-950 overflow-hidden">
         {/* Decorative overlay */}
-        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-20" />
+        <div className="absolute inset-0 opacity-20" />
 
         <motion.div
           initial={{ opacity: 0, y: 40 }}
