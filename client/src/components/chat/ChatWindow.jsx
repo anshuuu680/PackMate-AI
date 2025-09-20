@@ -1,7 +1,7 @@
 import React from "react";
-import ChatMessages from "./ChatMessage";
-import ChatInput from "./ChatInput";
-import ChatHeader from "./ChatHeader";
+import ChatMessages from "./ChatMessage.jsx";
+import ChatInput from "./ChatInput.jsx";
+import ChatHeader from "./ChatHeader.jsx";
 import { motion, AnimatePresence } from "framer-motion";
 
 function ChatWindow({

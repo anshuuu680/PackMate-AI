@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { CheckCircle } from "lucide-react";
-import { useAuthFormFormik } from "../../hooks/useAuthFormFormik";
+import { useAuthFormFormik } from "../../hooks/useAuthFormFormik.js";
 import axios from "axios";
 
 import {

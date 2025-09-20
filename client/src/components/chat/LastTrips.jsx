@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { PreviousTripCard } from "./PreviousTripCard";
+import { PreviousTripCard } from "./PreviousTripCard.jsx";
 
 export default function PreviousTrips({
   chats,
