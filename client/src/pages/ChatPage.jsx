@@ -13,7 +13,7 @@ import {
 import { Card } from "@/components/ui/card";
 import { Plus } from "lucide-react";
 import ChatWindow from "../components/chat/ChatWindow";
-import PreviousTrips from "../components/chat/PreviousTrips";
+import PreviousTrips from "../components/chat/PreviousTrips.jsx";
 
 export default function ChatPage() {
   const dispatch = useDispatch();
