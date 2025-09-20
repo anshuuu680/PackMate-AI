@@ -4,6 +4,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 import { OAuth2Client } from "google-auth-library";
+import { verifyEmail } from "../emails/verify.email.js";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -25,6 +26,8 @@ const generateAccessAndRefreshTokens = async (userId) => {
 
   return { accessToken, refreshToken };
 };
+const generateOTP = () =>
+  Math.floor(100000 + Math.random() * 900000).toString();
 
 export const user = {
   register: asyncHandler(async (req, res) => {
@@ -51,6 +54,9 @@ export const user = {
       id: newUser.id,
       email: newUser.email,
       fullName: newUser.fullName,
+      mobile: newUser.mobile,
+      avatar: newUser.avatar,
+      isVerified: newUser.isVerified,
     };
 
     return res
@@ -87,7 +93,9 @@ export const user = {
       id: user.id,
       email: user.email,
       fullName: user.fullName,
+      mobile: user.mobile,
       avatar: user.avatar,
+      isVerified: user.isVerified,
     };
 
     return res
@@ -156,6 +164,63 @@ export const user = {
       );
   }),
 
+  verifyEmail: asyncHandler(async (req, res) => {
+    const { email } = req.body;
+
+    if (!email) throw new ApiError(400, "Email is required");
+
+    const user = await User.findOne({ where: { email } });
+    if (!user) throw new ApiError(404, "User not found");
+
+    const otp = generateOTP();
+
+    await user.hashOtp(otp);
+    await user.save();
+
+    await verifyEmail(user.email, otp);
+
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          { email: user.email },
+          "OTP sent to your email successfully"
+        )
+      );
+  }),
+
+  verifyOtp: asyncHandler(async (req, res) => {
+    const { email, otp } = req.body;
+
+    if (!email || !otp) throw new ApiError(400, "Email and OTP are required");
+
+    const user = await User.findOne({ where: { email } });
+    if (!user) throw new ApiError(404, "User not found");
+
+    if (!user.otpExpires || user.otpExpires < new Date()) {
+      throw new ApiError(400, "OTP has expired. Please request a new one.");
+    }
+
+    const isValidOtp = await user.isOtpCorrect(otp);
+    if (!isValidOtp) throw new ApiError(400, "Invalid OTP");
+
+    user.isVerified = true;
+    user.otp = null;
+    user.otpExpires = null;
+    await user.save();
+
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          { email: user.email, isVerified: user.isVerified },
+          "Email verified successfully"
+        )
+      );
+  }),
+
   logout: asyncHandler(async (req, res) => {
     const userId = req.user?.id;
     if (!userId) throw new ApiError(401, "Unauthorized");
@@ -173,7 +238,7 @@ export const user = {
     if (!req.user) throw new ApiError(401, "Unauthorized");
 
     const currentUser = await User.findByPk(req.user.id, {
-      attributes: ["id", "email", "fullName", "avatar"],
+      attributes: ["id", "email", "fullName", "avatar", "mobile", "isVerified"],
     });
 
     if (!currentUser) throw new ApiError(404, "User not found");
@@ -185,6 +250,7 @@ export const user = {
 
   updateUser: asyncHandler(async (req, res) => {
     const { email, fullName, mobile } = req.body;
+    console.log(req.body);
 
     const user = await User.findByPk(req.user.id);
     if (!user) throw new ApiError(404, "User not found");

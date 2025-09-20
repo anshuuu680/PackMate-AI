@@ -7,6 +7,7 @@ class User extends Model {
   async isPasswordCorrect(password) {
     return await bcrypt.compare(password, this.password);
   }
+
   async hashOtp(otp) {
     const salt = await bcrypt.genSalt(10);
     this.otp = await bcrypt.hash(otp, salt);
@@ -14,6 +15,8 @@ class User extends Model {
   }
 
   async isOtpCorrect(enteredOtp) {
+    if (!this.otp || !this.otpExpires) return false;
+    if (new Date() > this.otpExpires) return false;
     return await bcrypt.compare(enteredOtp, this.otp);
   }
 

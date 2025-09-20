@@ -26,7 +26,7 @@ function Login() {
 
       localStorage.setItem("token", res.data?.data?.accessToken);
       localStorage.setItem("refreshToken", res.data?.data?.refreshToken);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      localStorage.setItem("user", JSON.stringify(res.data?.data?.user));
       if (res?.data?.statusCode === 200) navigate("/users/chat");
     } catch (err) {
       console.error("Login failed:", err.response?.data || err.message);

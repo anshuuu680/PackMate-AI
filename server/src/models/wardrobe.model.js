@@ -37,6 +37,7 @@ Wardrobe.init(
     },
     image: {
       type: DataTypes.STRING,
+      allowNull: true,
       defaultValue: "",
     },
     isFavorite: {

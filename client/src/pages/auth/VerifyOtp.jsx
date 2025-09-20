@@ -1,22 +1,62 @@
-import { useAuthFormFormik } from "../../hooks/useAuthFormFormik";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useRef } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Card,
+  CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { useAuthFormFormik } from "@/hooks/useAuthFormFormik";
+import { useRef } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 import { Lock } from "lucide-react";
 
-function VerifyOtp() {
+export default function VerifyOtp() {
   const navigate = useNavigate();
   const location = useLocation();
   const email = location.state?.email;
-  const formik = useAuthFormFormik("verifyOtp", (values) => {
-    navigate("/auth/reset-password", { state: { email } });
+  const mode = location.state?.mode || "verify-email";
+
+  const formik = useAuthFormFormik("verifyOtp", async (values) => {
+    if (mode === "forgot-password") {
+      navigate("/auth/reset-password", { state: { email } });
+      return;
+    }
+
+    if (mode === "verify-email") {
+      const otpToken = localStorage.getItem("token");
+      if (!otpToken) {
+        return alert("OTP token is missing. Please resend the OTP.");
+      }
+
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${otpToken}`,
+          },
+          withCredentials: true,
+        };
+
+        const res = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/user/verify-otp`,
+          { otp: formik.values.otp, email },
+          config
+        );
+
+        if (res?.data?.statusCode === 200) {
+          // Update user in localStorage
+          const user = JSON.parse(localStorage.getItem("user")) || {};
+          user.isVerified = true;
+          localStorage.setItem("user", JSON.stringify(user));
+
+          alert("Email verified successfully!");
+          navigate("/profile"); // or wherever you want to redirect
+        }
+      } catch (error) {
+        alert(error.response?.data?.message || "OTP verification failed");
+      }
+    }
   });
 
   const inputRefs = useRef([]);
@@ -29,7 +69,7 @@ function VerifyOtp() {
     otpArray[index] = value;
     formik.setFieldValue("otp", otpArray.join(""));
 
-    if (value && index < 4) {
+    if (value && index < 5) {
       inputRefs.current[index + 1]?.focus();
     }
   };
@@ -47,9 +87,11 @@ function VerifyOtp() {
           <div className="mx-auto p-3 rounded-lg bg-gray-100 w-fit">
             <Lock className="w-6 h-6 text-gray-600" />
           </div>
-          <CardTitle className="text-2xl font-semibold">Verify OTP</CardTitle>
+          <CardTitle className="text-2xl font-semibold">
+            {mode === "forgot-password" ? "Reset Password" : "Verify OTP"}
+          </CardTitle>
           <CardDescription>
-            We sent a code to{" "}
+            Enter the code sent to{" "}
             <span className="font-medium">{email || "your email address"}</span>
             .
           </CardDescription>
@@ -58,7 +100,7 @@ function VerifyOtp() {
         <CardContent>
           <form onSubmit={formik.handleSubmit} className="space-y-6">
             <div className="flex gap-3 justify-center">
-              {[0, 1, 2, 3, 4].map((i) => (
+              {[0, 1, 2, 3, 4, 5].map((i) => (
                 <input
                   key={i}
                   ref={(el) => (inputRefs.current[i] = el)}
@@ -67,28 +109,27 @@ function VerifyOtp() {
                   value={formik.values.otp[i] || ""}
                   onChange={(e) => handleOtpChange(e, i)}
                   onKeyDown={(e) => handleKeyDown(e, i)}
-                  className="w-12 h-12 border rounded-lg text-center text-lg outline-none  focus:border-sky-600 focus:border-2"
+                  className="w-12 h-12 border rounded-lg text-center text-lg outline-none focus:border-sky-600 focus:border-2"
                 />
               ))}
             </div>
 
-            {/* Error */}
             {formik.touched.otp && formik.errors.otp && (
               <p className="text-sm text-red-500 text-center">
                 {formik.errors.otp}
               </p>
             )}
 
-            {/* Submit */}
             <Button type="submit" className="w-full">
-              Verify OTP
+              {mode === "forgot-password" ? "Reset Password" : "Verify OTP"}
             </Button>
 
-            {/* Resend */}
             <p className="text-sm text-center text-muted-foreground">
               Didn’t receive the email?{" "}
               <a
-                href="/auth/forgot-password"
+                href={
+                  mode === "forgot-password" ? "/auth/forgot-password" : "#"
+                }
                 className="text-blue-600 hover:underline"
               >
                 Resend code
@@ -100,5 +141,3 @@ function VerifyOtp() {
     </div>
   );
 }
-
-export default VerifyOtp;

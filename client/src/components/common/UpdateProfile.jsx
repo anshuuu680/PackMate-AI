@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CheckCircle } from "lucide-react";
 import { useAuthFormFormik } from "@/hooks/useAuthFormFormik";
 import axios from "axios";
@@ -14,24 +14,47 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useNavigate } from "react-router-dom";
 
-function UpdateProfileModal({ isOpen, onClose, isVerified = true }) {
+function UpdateProfileModal({ isOpen, onClose }) {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState(null);
+  const [base64Avatar, setBase64Avatar] = useState(null);
 
   const formik = useAuthFormFormik(
     "updateProfile",
     async (values, { setSubmitting }) => {
       try {
-        const formData = new FormData();
-        formData.append("email", values.email);
-        formData.append("fullName", values.fullName);
-        formData.append("mobile", values.mobile);
-        if (values.avatar) formData.append("avatar", values.avatar);
+        const token = localStorage.getItem("token");
 
-        const res = await axios.put("/api/v1/user/update", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-          withCredentials: true,
-        });
+        const payload = {
+          email: values.email,
+          fullName: values.fullName,
+          mobile: values.mobile,
+          isVerified: values.isVerified,
+          avatar: base64Avatar,
+        };
+
+        const res = await axios.put(
+          `${import.meta.env.VITE_BACKEND_URL}/user/update-user`,
+          payload,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            withCredentials: true,
+          }
+        );
+
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            ...values,
+            avatarUrl: preview || "/default-avatar.png",
+          })
+        );
 
         alert(res.data.message || "Profile updated successfully");
         onClose();
@@ -42,6 +65,53 @@ function UpdateProfileModal({ isOpen, onClose, isVerified = true }) {
       }
     }
   );
+
+  useEffect(() => {
+    if (isOpen) {
+      const storedUser = JSON.parse(localStorage.getItem("user")) || {};
+      formik.setFieldValue("fullName", storedUser.fullName || "");
+      formik.setFieldValue("email", storedUser.email || "");
+      formik.setFieldValue("mobile", storedUser.mobile || "");
+      formik.setFieldValue("isVerified", storedUser.isVerified || false);
+      setBase64Avatar(null);
+      if (storedUser.avatarUrl) setPreview(storedUser.avatarUrl);
+    }
+  }, [isOpen]);
+
+  const handleAvatarChange = (file) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setBase64Avatar(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleVerifyEmail = async () => {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("token");
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/user/verify-email`,
+        { email: formik.values.email },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+        }
+      );
+
+      if (res?.data?.statusCode === 200) {
+        navigate("/auth/verify-otp", {
+          state: { email: formik.values.email, mode: "verify-email" },
+        });
+      }
+    } catch (error) {
+      alert(
+        error.response?.data?.message || "Error sending verification email"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -71,8 +141,11 @@ function UpdateProfileModal({ isOpen, onClose, isVerified = true }) {
                 className="hidden"
                 onChange={(e) => {
                   const file = e.target.files[0];
-                  formik.setFieldValue("avatar", file);
-                  if (file) setPreview(URL.createObjectURL(file));
+                  if (file) {
+                    formik.setFieldValue("avatar", file);
+                    setPreview(URL.createObjectURL(file));
+                    handleAvatarChange(file);
+                  }
                 }}
               />
             </div>
@@ -85,10 +158,7 @@ function UpdateProfileModal({ isOpen, onClose, isVerified = true }) {
               id="fullName"
               type="text"
               placeholder="John Doe"
-              value={formik.values.fullName}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className="w-full"
+              {...formik.getFieldProps("fullName")}
             />
             {formik.touched.fullName && formik.errors.fullName && (
               <p className="text-sm text-destructive">
@@ -104,29 +174,26 @@ function UpdateProfileModal({ isOpen, onClose, isVerified = true }) {
               <Input
                 id="email"
                 type="text"
+                disabled
                 placeholder="john@john.com"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className="w-full"
+                {...formik.getFieldProps("email")}
               />
-              <div className="flex items-center gap-1">
-                <CheckCircle
-                  size={18}
-                  className={isVerified ? "text-green-500" : "text-gray-400"}
-                />
-                <span
-                  className={`text-sm ${
-                    isVerified ? "text-green-600" : "text-gray-500"
-                  }`}
+              {formik.values.isVerified ? (
+                <div className="flex items-center gap-1">
+                  <CheckCircle size={18} className="text-green-500" />
+                  <span className="text-sm text-green-600">Verified</span>
+                </div>
+              ) : (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleVerifyEmail}
                 >
-                  {isVerified ? "Verified" : "Not Verified"}
-                </span>
-              </div>
+                  {loading ? "Verifying..." : "Verify"}
+                </Button>
+              )}
             </div>
-            {formik.touched.email && formik.errors.email && (
-              <p className="text-sm text-destructive">{formik.errors.email}</p>
-            )}
           </div>
 
           {/* Mobile */}
@@ -136,17 +203,11 @@ function UpdateProfileModal({ isOpen, onClose, isVerified = true }) {
               id="mobile"
               type="text"
               placeholder="9876543210"
-              value={formik.values.mobile}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className="w-full"
+              {...formik.getFieldProps("mobile")}
             />
-            {formik.touched.mobile && formik.errors.mobile && (
-              <p className="text-sm text-destructive">{formik.errors.mobile}</p>
-            )}
           </div>
 
-          {/* Footer Buttons */}
+          {/* Footer */}
           <DialogFooter className="flex justify-end gap-4">
             <Button variant="outline" type="button" onClick={onClose}>
               Cancel

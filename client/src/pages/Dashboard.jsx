@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { CalendarDays, Package } from "lucide-react";
+import React from "react";
+import { CalendarDays, Package, DollarSign, Clock } from "lucide-react";
 import StatsCard from "@/components/dashboard/StatsCard";
 import LineChartCard from "@/components/dashboard/LineChartCard";
 import BarChartCard from "@/components/dashboard/BarChartCard";
 import RecentTripsList from "@/components/dashboard/RecentTrips";
+import { FaRupeeSign } from "react-icons/fa";
 
 export default function Dashboard() {
   const stats = [
@@ -19,23 +20,38 @@ export default function Dashboard() {
       subtitle: "next 30 days",
       icon: <Package className="w-6 h-6 text-green-500" />,
     },
+    {
+      title: "Current Trip Expense",
+      value: "₹35,000", // plain rupee symbol
+      subtitle: "London Trip",
+      icon: <FaRupeeSign className="w-6 h-6 text-yellow-500" />, // no icon needed
+    },
+    {
+      title: "Total Travel Expense",
+      value: "₹4,20,000", // plain rupee symbol
+      subtitle: "all trips",
+      icon: <FaRupeeSign className="w-6 h-6 text-yellow-500" />,
+    },
   ];
 
-  const lineData = [
-    { name: "Mon", value: 30 },
-    { name: "Tue", value: 45 },
-    { name: "Wed", value: 60 },
-    { name: "Thu", value: 55 },
-    { name: "Fri", value: 80 },
-    { name: "Sat", value: 95 },
-    { name: "Sun", value: 70 },
+  // Expense chart data
+  const expenseData = [
+    { name: "London", value: 350 },
+    { name: "New York", value: 900 },
+    { name: "Rome", value: 500 },
+    { name: "Paris", value: 600 },
+    { name: "Tokyo", value: 850 },
   ];
 
-  const barData = [
-    { name: "Hotel", value: 24 },
-    { name: "Flight", value: 18 },
-    { name: "Tours", value: 12 },
-    { name: "Transport", value: 9 },
+  // Trip duration or weekly trips chart
+  const tripDurationData = [
+    { name: "Mon", value: 1 },
+    { name: "Tue", value: 2 },
+    { name: "Wed", value: 1 },
+    { name: "Thu", value: 0 },
+    { name: "Fri", value: 2 },
+    { name: "Sat", value: 1 },
+    { name: "Sun", value: 0 },
   ];
 
   const trips = [
@@ -60,25 +76,29 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="p-6 space-y-6">
-      {/* Top stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="p-6 max-w-6xl mx-auto space-y-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <h1 className="text-3xl font-bold">Dashboard</h1>
+      </div>
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((s, i) => (
           <StatsCard key={i} {...s} className="h-24 p-3" />
         ))}
       </div>
 
-      {/* Charts + Right Sidebar */}
+      {/* Charts + Recent Trips */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2 space-y-4">
-          <LineChartCard
-            title="Weekly Engagement"
-            data={lineData}
+          <BarChartCard
+            title="Travel Expense by Trip"
+            data={expenseData}
             className="h-64"
           />
-          <BarChartCard
-            title="Service Breakdown"
-            data={barData}
+          <LineChartCard
+            title="Trips per Day of Week"
+            data={tripDurationData}
             className="h-64"
           />
         </div>

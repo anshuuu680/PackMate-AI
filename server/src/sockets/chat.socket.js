@@ -64,8 +64,14 @@ export function registerChatSocket() {
           const assistantMessage = await Message.create({
             chatId: chat.id,
             sender: "assistant",
-            message:
-              "Hello! I’m PackMate, your travel assistant. How can I help you today? ✈️",
+            message: `Here are some things I can help you with:  
+
+1. ✈️ Plan your next trip  
+2. 💰 Track and split expenses  
+3. 👕 Suggest outfits from your wardrobe  
+4. 📑 Manage your bookings  
+
+Which one would you like to start with?`,
           });
 
           // Update chat lastMessageId

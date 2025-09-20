@@ -65,6 +65,23 @@ export default function ChatPage() {
     }
   };
 
+  // Send message
+  const sendMessage = () => {
+    if (!input.trim()) return;
+
+    const socket = getSocket();
+    const msg = {
+      sender: "user",
+      type: "text",
+      message: input.trim(),
+      chatId,
+    };
+
+    socket.emit("chat:send", msg);
+
+    setInput("");
+  };
+
   // Fetch all chats on mount
   useEffect(() => {
     fetchChats();
@@ -95,23 +112,6 @@ export default function ChatPage() {
     };
   }, [chatId, dispatch]);
 
-  // Send message
-  const sendMessage = () => {
-    if (!input.trim()) return;
-
-    const socket = getSocket();
-    const msg = {
-      sender: "user",
-      type: "text",
-      message: input.trim(),
-      chatId,
-    };
-
-    socket.emit("chat:send", msg);
-
-    setInput("");
-  };
-
   const handleChatSelect = async (selectedChatId) => {
     dispatch(setChatId(selectedChatId));
     try {
@@ -137,7 +137,7 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex p-4 sm:p-4 gap-6">
+    <div className="p-6 max-w-6xl mx-auto space-x-4 flex">
       <div className="md:w-2/3 w-full">
         <ChatWindow
           messages={messages}
@@ -156,7 +156,7 @@ export default function ChatPage() {
                  cursor-pointer"
         >
           <div className="flex flex-col items-center justify-center p-8 text-center space-y-2">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3">
               <div className="p-1 rounded-full bg-sky-50 flex items-center justify-center">
                 <Plus className="w-5 h-5 text-sky-500" />
               </div>
@@ -164,12 +164,14 @@ export default function ChatPage() {
             </div>
           </div>
         </Card>
-        <PreviousTrips
-          chats={chats}
-          setChatId={handleChatSelect}
-          chatId={chatId}
-          onConfirmDelete={onConfirmDelete}
-        />
+        {chats.length > 0 && (
+          <PreviousTrips
+            chats={chats}
+            setChatId={handleChatSelect}
+            chatId={chatId}
+            onConfirmDelete={onConfirmDelete}
+          />
+        )}
       </div>
     </div>
   );

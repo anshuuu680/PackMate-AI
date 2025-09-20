@@ -17,6 +17,7 @@
     "axios": "^1.12.2",
     "bcrypt": "^6.0.0",
     "body-parser": "^2.2.0",
+    "client-s3": "github:aws-sdk/client-s3",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "google-auth-library": "^10.3.0",
@@ -25,8 +26,10 @@
     "mongoose": "^8.18.0",
     "morgan": "^1.10.1",
     "mysql2": "^3.14.4",
+    "nodemailer": "^7.0.6",
     "sequelize": "^6.37.7",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

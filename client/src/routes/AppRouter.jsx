@@ -10,6 +10,8 @@ import {
   Dashboard,
   ChatPage,
   Wardrobe,
+  Home,
+  Expense,
 } from "../index";
 import { Button } from "@/components/ui/button";
 
@@ -17,7 +19,7 @@ const AppRouter = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<h1>Home Page</h1>} />
+        <Route path="/" element={<Home />} />
         <Route path="/auth">
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
@@ -37,9 +39,10 @@ const AppRouter = () => {
           <Route index path="dashboard" element={<Dashboard />} />
           <Route path="chat" element={<ChatPage />} />
           <Route path="wardrobe" element={<Wardrobe />} />
-          <Route path="trips" element={<Button>Submit</Button>} />
-          <Route path="packing-list" element={<h1>Packing List</h1>} />
-          <Route path="outfits" element={<h1>Outfit Suggestions</h1>} />
+          <Route path="suggestions" element={<h1>Suggestion</h1>} />
+          <Route path="plan" element={<h1>plan</h1>} />
+          <Route path="expense-tracking" element={<Expense />} />
+
           <Route
             path="destination-tools"
             element={<h1>Destination Tools</h1>}

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
 
 export default function Typewriter({ text = "", speed = 30 }) {
   const [displayedText, setDisplayedText] = useState("");
@@ -18,5 +19,5 @@ export default function Typewriter({ text = "", speed = 30 }) {
     return () => clearInterval(interval);
   }, [text, speed]);
 
-  return <span>{displayedText}</span>;
+  return <ReactMarkdown>{displayedText}</ReactMarkdown>;
 }

@@ -1,6 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Link } from "react-scroll";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 
 function Home() {
   const navigate = useNavigate();
@@ -26,15 +30,16 @@ function Home() {
       title: "Shopping Assistant",
       description: "Recommends essentials with e-commerce integration.",
     },
-    {
-      icon: "📸",
-      title: "AI Packing Validator",
-      description: "Upload suitcase photo—AI checks if you forgot items.",
-    },
+
     {
       icon: "🩺",
       title: "Health & Safety Kit",
       description: "Recommends medicines, adapters, or travel essentials.",
+    },
+    {
+      icon: "💸",
+      title: "Expense Tracking",
+      description: "Track your trip spending with AI-powered insights.",
     },
   ];
 
@@ -77,8 +82,6 @@ function Home() {
     },
   ];
 
-  const logos = ["✈️", "🏨", "🛍️", "🌍", "🚀"];
-
   const handleGetStarted = () => navigate("/auth/register");
   const handleLogin = () => navigate("/auth/login");
 
@@ -92,21 +95,16 @@ function Home() {
   };
 
   return (
-    <div
-      style={{ fontFamily: "Work sans" }}
-      className="w-full min-h-screen bg-white font-manrope text-gray-900 overflow-x-hidden"
-    >
+    <div className="w-full min-h-screen bg-background text-foreground font-sans">
       {/* Header */}
-      <header className="w-full border-b border-gray-200 sticky top-0 bg-white/80 backdrop-blur-md z-50">
+      <header className="w-full border-b sticky top-0 bg-background/80 backdrop-blur-md z-50">
         <nav className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <div
             className="flex items-center gap-2 cursor-pointer"
             onClick={() => navigate("/")}
           >
             <span className="text-2xl">✨</span>
-            <h1 className="text-xl font-bold tracking-tight text-gray-900">
-              PackMate
-            </h1>
+            <h1 className="text-xl font-bold tracking-tight">PackMate</h1>
           </div>
           <div className="hidden md:flex items-center gap-6 text-sm font-medium">
             <Link
@@ -114,7 +112,7 @@ function Home() {
               smooth
               duration={600}
               offset={-80}
-              className="cursor-pointer hover:text-indigo-600"
+              className="cursor-pointer hover:text-primary"
             >
               Features
             </Link>
@@ -123,7 +121,7 @@ function Home() {
               smooth
               duration={600}
               offset={-80}
-              className="cursor-pointer hover:text-indigo-600"
+              className="cursor-pointer hover:text-primary"
             >
               Benefits
             </Link>
@@ -132,29 +130,22 @@ function Home() {
               smooth
               duration={600}
               offset={-80}
-              className="cursor-pointer hover:text-indigo-600"
+              className="cursor-pointer hover:text-primary"
             >
               Testimonials
             </Link>
           </div>
           <div className="flex items-center gap-3">
-            <button
-              onClick={handleLogin}
-              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-indigo-600 transition"
-            >
+            <Button variant="ghost" onClick={handleLogin}>
               Sign In
-            </button>
-            <button
-              onClick={handleGetStarted}
-              className="px-5 py-2 text-sm font-medium bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 transition"
-            >
-              Get Started
-            </button>
+            </Button>
+            <Button onClick={handleGetStarted}>Get Started</Button>
           </div>
         </nav>
       </header>
 
-      <section className="text-center py-24 px-6 bg-gradient-to-b from-white to-gray-50">
+      {/* Hero Section */}
+      <section className="text-center py-24 px-6 bg-gradient-to-b from-background to-muted">
         <motion.div
           initial="hidden"
           animate="visible"
@@ -163,7 +154,7 @@ function Home() {
         >
           <motion.h1
             variants={fadeInUp}
-            className="text-4xl sm:text-6xl font-extrabold mb-6 text-gray-900 leading-tight"
+            className="text-5xl font-extrabold mb-6 leading-tight"
           >
             Smarter Packing, Powered by{" "}
             <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
@@ -172,7 +163,7 @@ function Home() {
           </motion.h1>
           <motion.p
             variants={fadeInUp}
-            className="text-lg sm:text-xl text-gray-600 mb-8"
+            className="text-lg text-muted-foreground mb-8"
           >
             From outfit planning to AI luggage checks, PackMate helps you save
             time, pack light, and never forget an essential again.
@@ -181,31 +172,30 @@ function Home() {
             variants={fadeInUp}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <button
-              onClick={handleGetStarted}
-              className="px-8 py-3 text-lg font-semibold bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 transition"
-            >
+            <Button size="lg" onClick={handleGetStarted}>
               Get Started
-            </button>
+            </Button>
             <Link
               to="features"
               smooth
               duration={600}
               offset={-80}
-              className="px-8 py-3 text-lg font-medium text-gray-800 border border-gray-300 rounded-lg hover:border-indigo-400 transition cursor-pointer flex items-center justify-center"
+              className="cursor-pointer"
             >
-              Learn More
+              <Button size="lg" variant="outline">
+                Learn More
+              </Button>
             </Link>
           </motion.div>
         </motion.div>
       </section>
 
       {/* Features */}
-      <section id="features" className="py-20 px-6 bg-white">
+      <section id="features" className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">Features</h2>
-            <p className="text-lg text-gray-600">
+            <h2 className="text-3xl font-bold mb-3">Features</h2>
+            <p className="text-lg text-muted-foreground">
               Everything you need for stress-free travel packing.
             </p>
           </div>
@@ -218,13 +208,18 @@ function Home() {
                 whileInView="visible"
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-gray-50 rounded-xl shadow-sm hover:shadow-md p-6 transition"
               >
-                <div className="text-2xl mb-4">{f.icon}</div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  {f.title}
-                </h3>
-                <p className="text-sm text-gray-600">{f.description}</p>
+                <Card className="h-full hover:shadow-md transition">
+                  <CardHeader>
+                    <div className="text-3xl">{f.icon}</div>
+                    <CardTitle>{f.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">
+                      {f.description}
+                    </p>
+                  </CardContent>
+                </Card>
               </motion.div>
             ))}
           </div>
@@ -232,11 +227,11 @@ function Home() {
       </section>
 
       {/* Benefits */}
-      <section id="benefits" className="py-20 px-6 bg-gray-50">
+      <section id="benefits" className="py-20 px-6 bg-muted/30">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">Benefits</h2>
-            <p className="text-lg text-gray-600">
+            <h2 className="text-3xl font-bold mb-3">Benefits</h2>
+            <p className="text-lg text-muted-foreground">
               Why travelers choose PackMate for their journeys.
             </p>
           </div>
@@ -249,26 +244,170 @@ function Home() {
                 whileInView="visible"
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-white rounded-xl shadow-sm hover:shadow-md p-8 transition"
               >
-                <div className="text-3xl mb-4">{b.icon}</div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  {b.title}
-                </h3>
-                <p className="text-sm text-gray-600">{b.description}</p>
+                <Card className="h-full hover:shadow-md transition">
+                  <CardHeader>
+                    <div className="text-3xl">{b.icon}</div>
+                    <CardTitle>{b.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">
+                      {b.description}
+                    </p>
+                  </CardContent>
+                </Card>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Screenshots Showcase */}
+      <section id="screenshots" className="py-24 bg-muted/20">
+        <div className="max-w-7xl mx-auto px-6 space-y-32">
+          {/* Chat Section */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <motion.div
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="relative w-full rounded-3xl border border-indigo-200 bg-background shadow-lg overflow-hidden">
+                <img
+                  src="/screens/chat.png"
+                  alt="Smart Chat"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </motion.div>
+            <div className="space-y-5">
+              <Badge variant="outline" className="bg-indigo-50 text-indigo-700">
+                Chat
+              </Badge>
+              <h3 className="text-3xl font-bold">Smart Chat</h3>
+              <p className="text-lg text-muted-foreground">
+                Plan trips like chatting with a friend — our AI suggests packing
+                lists, travel hacks, and more in natural conversation.
+              </p>
+              <ul className="list-disc list-inside text-muted-foreground space-y-2">
+                <li>Chat about your trip plans</li>
+                <li>AI generates personalized packing lists</li>
+                <li>Instant suggestions & reminders</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Dashboard Section */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div className="order-last md:order-first space-y-5">
+              <Badge variant="outline" className="bg-purple-50 text-purple-700">
+                Dashboard
+              </Badge>
+              <h3 className="text-3xl font-bold">Trip Dashboard</h3>
+              <p className="text-lg text-muted-foreground">
+                Get a bird’s-eye view of all your trips — packing status,
+                reminders, expenses, and weather updates in one place.
+              </p>
+              <ul className="list-disc list-inside text-muted-foreground space-y-2">
+                <li>Centralized trip management</li>
+                <li>Weather-aware packing alerts</li>
+                <li>Visual progress tracking</li>
+              </ul>
+            </div>
+            <motion.div
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="relative w-full rounded-3xl border border-purple-200 bg-background shadow-lg overflow-hidden">
+                <img
+                  src="/screens/dashboard.png"
+                  alt="Trip Dashboard"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Suggestions Section */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <motion.div
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="relative w-full rounded-3xl border border-indigo-200 bg-background shadow-lg overflow-hidden">
+                <img
+                  src="/screens/suggestions.png"
+                  alt="AI Suggestions"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </motion.div>
+            <div className="space-y-5">
+              <Badge variant="outline" className="bg-indigo-50 text-indigo-700">
+                AI
+              </Badge>
+              <h3 className="text-3xl font-bold">AI Suggestions</h3>
+              <p className="text-lg text-muted-foreground">
+                Context-aware recommendations based on your destination, trip
+                type, and preferences.
+              </p>
+              <ul className="list-disc list-inside text-muted-foreground space-y-2">
+                <li>Business vs. adventure packing modes</li>
+                <li>Smart clothing combinations</li>
+                <li>Destination-specific essentials</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Expense Tracking Section */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div className="order-last md:order-first space-y-5">
+              <Badge variant="outline" className="bg-purple-50 text-purple-700">
+                Finance
+              </Badge>
+              <h3 className="text-3xl font-bold">Expense Tracking</h3>
+              <p className="text-lg text-muted-foreground">
+                Keep an eye on your spending during trips. AI categorizes
+                expenses and gives insights so you stay on budget.
+              </p>
+              <ul className="list-disc list-inside text-muted-foreground space-y-2">
+                <li>Daily and total expense tracking</li>
+                <li>Smart categorization (food, travel, shopping)</li>
+                <li>Budget alerts & insights</li>
+              </ul>
+            </div>
+            <motion.div
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="relative w-full rounded-3xl border border-purple-200 bg-background shadow-lg overflow-hidden">
+                <img
+                  src="/screens/expenses.png"
+                  alt="Expense Tracking"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials */}
-      <section id="testimonials" className="py-20 px-6 bg-white">
+      <section id="testimonials" className="py-20 px-6">
         <div className="max-w-6xl mx-auto text-center mb-14">
-          <h2 className="text-3xl font-bold text-gray-900 mb-3">
-            What Travelers Say
-          </h2>
-          <p className="text-lg text-gray-600">
+          <h2 className="text-3xl font-bold mb-3">What Travelers Say</h2>
+          <p className="text-lg text-muted-foreground">
             Loved by thousands of frequent flyers and explorers.
           </p>
         </div>
@@ -281,56 +420,80 @@ function Home() {
               whileInView="visible"
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="bg-gray-50 rounded-xl shadow p-6 text-left"
             >
-              <p className="text-sm text-gray-700 italic mb-4">
-                “{t.feedback}”
-              </p>
-              <div className="text-sm font-semibold text-gray-900">
-                {t.name}
-              </div>
-              <div className="text-xs text-gray-500">{t.role}</div>
+              <Card className="h-full bg-muted/40">
+                <CardContent className="p-6">
+                  <p className="text-sm italic mb-4">“{t.feedback}”</p>
+                  <div className="font-semibold">{t.name}</div>
+                  <div className="text-xs text-muted-foreground">{t.role}</div>
+                </CardContent>
+              </Card>
             </motion.div>
           ))}
         </div>
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 px-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-center text-white">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-          Ready to Pack Smarter?
-        </h2>
-        <p className="text-lg mb-8 text-indigo-100">
-          Join thousands of travelers using PackMate today.
-        </p>
-        <button
-          onClick={handleGetStarted}
-          className="px-8 py-3 text-lg font-semibold bg-white text-indigo-700 rounded-lg shadow hover:bg-gray-100 transition"
+      {/* Call to Action */}
+      <section className="relative py-24 px-6 bg-gradient-to-r from-sky-950 via-blue-950 to-indigo-950 overflow-hidden">
+        {/* Decorative overlay */}
+        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-20" />
+
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="relative max-w-3xl mx-auto text-center text-white"
         >
-          Get Started Free
-        </button>
+          <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-6">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-indigo-200">
+              Ready to Pack Smarter?
+            </span>
+          </h2>
+          <p className="text-lg sm:text-xl mb-10 text-indigo-100 leading-relaxed">
+            Join thousands of travelers simplifying their trips with PackMate.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button
+              size="lg"
+              onClick={handleGetStarted}
+              className="bg-white text-indigo-700 hover:bg-gray-100 font-semibold shadow-md"
+            >
+              Get Started Free
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-white text-white hover:bg-white/10"
+            >
+              Learn More
+            </Button>
+          </div>
+        </motion.div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 py-10">
+      <footer className="border-t py-10">
         <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
             <span className="text-xl">✨</span>
-            <span className="font-semibold text-gray-900">PackMate</span>
+            <span className="font-semibold">PackMate</span>
           </div>
-          <div className="flex gap-6 text-sm text-gray-600">
-            <a href="#" className="hover:text-indigo-600">
+          <div className="flex gap-6 text-sm text-muted-foreground">
+            <a href="#" className="hover:text-primary">
               Privacy
             </a>
-            <a href="#" className="hover:text-indigo-600">
+            <a href="#" className="hover:text-primary">
               Terms
             </a>
-            <a href="#" className="hover:text-indigo-600">
+            <a href="#" className="hover:text-primary">
               Contact
             </a>
           </div>
         </div>
-        <p className="text-center text-sm text-gray-500 mt-6">
+        <Separator className="my-6" />
+        <p className="text-center text-sm text-muted-foreground">
           © 2025 PackMate. All rights reserved.
         </p>
       </footer>

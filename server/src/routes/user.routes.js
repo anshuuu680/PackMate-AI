@@ -10,7 +10,9 @@ router.route("/google-login").post(user.googleLogin);
 
 // protected routes
 router.route("/get-user").get(protect, user.getUser);
+router.route("/verify-email").post(protect, user.verifyEmail);
+router.route("/verify-otp").post(protect, user.verifyOtp);
 router.route("/logout").post(protect, user.logout);
-router.route("/update-user").post(protect, user.updateUser);
+router.route("/update-user").put(protect, user.updateUser);
 
 export default router;

@@ -5,12 +5,13 @@ import {
   BarChart3,
   MessageCircle,
   Shirt,
-  MapPin,
   ShoppingCart,
   Calendar,
   ClipboardList,
   X,
   Users,
+  CreditCard,
+  MapPin,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -24,13 +25,11 @@ import {
 const links = [
   { name: "Dashboard", href: "/dashboard", icon: BarChart3 },
   { name: "Chat Assistant", href: "/chat", icon: MessageCircle },
+  { name: "Suggestions", href: "/suggestions", icon: ClipboardList },
+  { name: "Plan", href: "/plan", icon: ShoppingCart },
   { name: "Wardrobe", href: "/wardrobe", icon: Calendar },
-  { name: "Trips", href: "/trips", icon: MapPin },
-  { name: "Packing List", href: "/packing-list", icon: ClipboardList },
-  { name: "Outfit Suggestions", href: "/outfits", icon: Shirt },
-  { name: "Destination Tools", href: "/destination-tools", icon: MapPin },
   { name: "Group Tools", href: "/group-tools", icon: Users },
-  { name: "Shop", href: "/shop", icon: ShoppingCart },
+  { name: "Expense Tracking", href: "/expense-tracking", icon: CreditCard },
 ];
 
 function Sidebar({ collapsed, setCollapsed }) {
@@ -47,7 +46,7 @@ function Sidebar({ collapsed, setCollapsed }) {
             md:translate-x-0 md:static
           `}
         >
-          <div className="flex items-center justify-between h-14 px-3 border-b">
+          <div className="flex items-center justify-between h-12 px-3 border-b">
             {!collapsed && (
               <span className="text-lg font-semibold text-primary">
                 ✨ PackMate
