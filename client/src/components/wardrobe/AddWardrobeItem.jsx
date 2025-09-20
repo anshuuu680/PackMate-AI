@@ -7,7 +7,7 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
-import WardrobeForm from "@/components/wardrobe/WardrobeForm";
+import WardrobeForm from "../../components/wardrobe/WardrobeForm";
 import axios from "axios";
 import { useState } from "react";
 

@@ -1,16 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import WardrobeCard from "@/components/wardrobe/WardrobeCard";
-import DeleteModal from "@/components/common/DeleteModal";
-import AddWardrobeItem from "@/components/wardrobe/AddWardrobeItem";
+import WardrobeCard from "../components/wardrobe/WardrobeCard";
+import DeleteModal from "../components/common/DeleteModal";
+import AddWardrobeItem from "../components/wardrobe/AddWardrobeItem";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
 
 const categories = [
   "All",

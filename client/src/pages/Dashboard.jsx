@@ -1,9 +1,9 @@
 import React from "react";
 import { CalendarDays, Package, DollarSign, Clock } from "lucide-react";
-import StatsCard from "@/components/dashboard/StatsCard";
-import LineChartCard from "@/components/dashboard/LineChartCard";
-import BarChartCard from "@/components/dashboard/BarChartCard";
-import RecentTripsList from "@/components/dashboard/RecentTrips";
+import StatsCard from "../components/dashboard/StatsCard";
+import LineChartCard from "../components/dashboard/LineChartCard";
+import BarChartCard from "../components/dashboard/BarChartCard";
+import RecentTripsList from "../components/dashboard/RecentTrips";
 import { FaRupeeSign } from "react-icons/fa";
 
 export default function Dashboard() {

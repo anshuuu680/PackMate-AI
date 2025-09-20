@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Trash2, Search } from "lucide-react";
-import DeleteModal from "@/components/common/DeleteModal";
+import DeleteModal from "../common/DeleteModal";
 
 function ChatHeader({ onConfirmDelete, activeChat }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);

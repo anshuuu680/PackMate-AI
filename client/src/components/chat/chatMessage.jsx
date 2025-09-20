@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
-import Typewriter from "../common/TypeWriter";
 
 export default function ChatMessages({ messages }) {
   const containerRef = useRef(null);

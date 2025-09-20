@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import TripCard from "@/components/expense/TripCard";
+import TripCard from "../components/expense/TripCard";
 import {
   Select,
   SelectTrigger,

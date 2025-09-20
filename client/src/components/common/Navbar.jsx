@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ModeToggle } from "./mode-toggle";
 import UpdateProfileModal from "./UpdateProfile";
-import LogoutModal from "@/components/common/LogoutModal";
+import LogoutModal from "../common/LogoutModal";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 

@@ -12,8 +12,8 @@ import {
 } from "../features/chat.slice";
 import { Card } from "@/components/ui/card";
 import { Plus } from "lucide-react";
-import ChatWindow from "@/components/chat/ChatWindow";
-import PreviousTrips from "@/components/chat/PreviousTrips";
+import ChatWindow from "../components/chat/ChatWindow";
+import PreviousTrips from "../components/chat/PreviousTrips";
 
 export default function ChatPage() {
   const dispatch = useDispatch();

@@ -4,14 +4,12 @@ import {
   Menu,
   BarChart3,
   MessageCircle,
-  Shirt,
   ShoppingCart,
   Calendar,
   ClipboardList,
   X,
   Users,
   CreditCard,
-  MapPin,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
