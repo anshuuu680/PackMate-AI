@@ -106,7 +106,7 @@ function Home() {
             <span className="text-2xl">✨</span>
             <h1 className="text-xl font-bold tracking-tight">PackMate</h1>
           </div>
-          <div className="hidden md:flex items-center gap-6 text-sm font-medium">
+          <div className="hidden w-full md:flex justify-center items-center gap-6 text-sm font-medium">
             <Link
               to="features"
               smooth
@@ -124,15 +124,6 @@ function Home() {
               className="cursor-pointer hover:text-primary"
             >
               Benefits
-            </Link>
-            <Link
-              to="testimonials"
-              smooth
-              duration={600}
-              offset={-80}
-              className="cursor-pointer hover:text-primary"
-            >
-              Testimonials
             </Link>
           </div>
           <div className="flex items-center gap-3">
@@ -323,11 +314,11 @@ function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className="relative w-full rounded-3xl border border-purple-200 bg-background shadow-lg overflow-hidden">
+              <div className="relative w-full rounded-3xl border bg-background shadow-lg overflow-hidden">
                 <img
-                  src="/screens/dashboard.png"
+                  src="/dashboard.png"
                   alt="Trip Dashboard"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               </div>
             </motion.div>
@@ -391,9 +382,9 @@ function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className="relative w-full rounded-3xl border border-purple-200 bg-background shadow-lg overflow-hidden">
+              <div className="relative w-full rounded-3xl border  bg-background shadow-lg overflow-hidden">
                 <img
-                  src="/screens/expenses.png"
+                  src="/expense.png"
                   alt="Expense Tracking"
                   className="w-full h-full object-cover"
                 />
@@ -404,7 +395,7 @@ function Home() {
       </section>
 
       {/* Testimonials */}
-      <section id="testimonials" className="py-20 px-6">
+      {/* <section id="testimonials" className="py-20 px-6">
         <div className="max-w-6xl mx-auto text-center mb-14">
           <h2 className="text-3xl font-bold mb-3">What Travelers Say</h2>
           <p className="text-lg text-muted-foreground">
@@ -431,7 +422,7 @@ function Home() {
             </motion.div>
           ))}
         </div>
-      </section>
+      </section> */}
 
       {/* Final CTA */}
       {/* Call to Action */}

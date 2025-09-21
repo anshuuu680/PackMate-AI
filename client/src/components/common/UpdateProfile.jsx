@@ -66,6 +66,7 @@ function UpdateProfileModal({ isOpen, onClose }) {
     }
   );
 
+  // Load stored user data when modal opens
   useEffect(() => {
     if (isOpen) {
       const storedUser = JSON.parse(localStorage.getItem("user")) || {};
@@ -78,6 +79,7 @@ function UpdateProfileModal({ isOpen, onClose }) {
     }
   }, [isOpen]);
 
+  // Convert avatar file to Base64
   const handleAvatarChange = (file) => {
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -86,6 +88,7 @@ function UpdateProfileModal({ isOpen, onClose }) {
     reader.readAsDataURL(file);
   };
 
+  // Handle email verification
   const handleVerifyEmail = async () => {
     try {
       setLoading(true);
@@ -205,9 +208,12 @@ function UpdateProfileModal({ isOpen, onClose }) {
               placeholder="9876543210"
               {...formik.getFieldProps("mobile")}
             />
+            {formik.touched.mobile && formik.errors.mobile && (
+              <p className="text-sm text-destructive">{formik.errors.mobile}</p>
+            )}
           </div>
 
-          {/* Footer */}
+          {/* Footer Buttons */}
           <DialogFooter className="flex justify-end gap-4">
             <Button variant="outline" type="button" onClick={onClose}>
               Cancel

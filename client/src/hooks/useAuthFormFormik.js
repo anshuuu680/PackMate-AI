@@ -47,7 +47,6 @@ const getInitialValue = (formType) => {
         fullName: "",
         mobile: "",
         avatar: null,
-        mobile: "",
         isVerified: false,
       };
     default:

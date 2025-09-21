@@ -10,6 +10,7 @@ import ChatPage from "./pages/ChatPage";
 import Wardrobe from "./pages/Wardrobe";
 import Home from "./pages/Home";
 import Expense from "./pages/Expense";
+import Plan from "./pages/Plan";
 
 export {
   Login,
@@ -24,4 +25,5 @@ export {
   Wardrobe,
   Home,
   Expense,
+  Plan,
 };

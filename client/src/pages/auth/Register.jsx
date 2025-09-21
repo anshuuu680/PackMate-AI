@@ -25,8 +25,9 @@ function Register() {
 
       localStorage.setItem("token", res.data?.data?.accessToken);
       localStorage.setItem("refreshToken", res.data?.data?.refreshToken);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      if (res?.data?.statusCode === 200) navigate("/users/chat");
+      localStorage.setItem("user", JSON.stringify(res.data?.data?.user));
+      console.log(res?.data);
+      if (res?.data?.statusCode === 201) navigate("/users/chat");
     } catch (err) {
       console.error("Register failed:", err.response?.data || err.message);
     }

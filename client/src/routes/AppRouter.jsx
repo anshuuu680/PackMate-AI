@@ -12,8 +12,9 @@ import {
   Wardrobe,
   Home,
   Expense,
+  Plan,
 } from "../index";
-import { Button } from "@/components/ui/button";
+import Suggestions from "@/pages/Suggestions";
 
 const AppRouter = () => {
   return (
@@ -39,8 +40,8 @@ const AppRouter = () => {
           <Route index path="dashboard" element={<Dashboard />} />
           <Route path="chat" element={<ChatPage />} />
           <Route path="wardrobe" element={<Wardrobe />} />
-          <Route path="suggestions" element={<h1>Suggestion</h1>} />
-          <Route path="plan" element={<h1>plan</h1>} />
+          <Route path="suggestions" element={<Suggestions />} />
+          <Route path="plan" element={<Plan />} />
           <Route path="expense-tracking" element={<Expense />} />
 
           <Route
