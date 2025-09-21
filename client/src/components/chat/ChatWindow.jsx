@@ -1,5 +1,5 @@
 import React from "react";
-import ChatMessages from "./ChatMessage.jsx";
+import ChatMessages from "./Messages.jsx";
 import ChatInput from "./ChatInput.jsx";
 import ChatHeader from "./ChatHeader.jsx";
 import { motion, AnimatePresence } from "framer-motion";
