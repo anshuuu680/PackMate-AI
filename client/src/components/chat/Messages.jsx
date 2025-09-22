@@ -32,8 +32,8 @@ export default function ChatMessages({ messages }) {
             <div
               className={`px-4 py-2 rounded-2xl max-w-xs sm:max-w-xl text-sm shadow-md break-words whitespace-normal ${
                 msg.sender === "user"
-                  ? " bg-white border border-gray-200 text-secondary"
-                  : " border "
+                  ? "bg-sky-900 text-white border border-sky-700"
+                  : "border "
               }`}
             >
               {msg.sender === "assistant" ? (

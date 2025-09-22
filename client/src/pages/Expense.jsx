@@ -175,7 +175,7 @@ export default function Expense() {
   const filteredTrips = trips.filter((t) => t.type === tripType);
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
+    <div className="px-12 py-8 ">
       <h1 className="text-3xl font-bold mb-6">Expense Tracking</h1>
 
       <div className="mb-6 flex items-center gap-4">

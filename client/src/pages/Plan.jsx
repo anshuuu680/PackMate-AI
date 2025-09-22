@@ -13,7 +13,7 @@ export default function Plan() {
   }
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="px-12 py-8 space-y-6">
       <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
         Your Packing Plan
       </h1>

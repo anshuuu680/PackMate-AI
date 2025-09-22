@@ -137,7 +137,7 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-x-4 flex">
+    <div className="px-12 py-8 space-x-4 flex">
       <div className="md:w-2/3 w-full">
         <ChatWindow
           messages={messages}

@@ -130,9 +130,9 @@ export default function Suggestions() {
   };
 
   return (
-    <div className="p-6 max-w-6xl mx-auto flex flex-col lg:flex-row gap-6">
+    <div className="px-12 py-8  flex flex-col lg:flex-row gap-6">
       {/* Left: Suggestions */}
-      <div className="flex-1 overflow-y-auto max-h-[86.5vh]">
+      <div className="flex-1 overflow-y-auto max-w-4xl max-h-[86.5vh]">
         <h1 className="text-3xl font-bold mb-6">Trip Suggestions</h1>
         <Tabs defaultValue="all">
           <TabsList className="flex gap-2 overflow-x-auto scrollbar-hide mb-6">

@@ -76,7 +76,7 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6">
+    <div className="px-12 py-8  space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <h1 className="text-3xl font-bold">Dashboard</h1>
       </div>
